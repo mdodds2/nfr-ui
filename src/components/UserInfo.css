@@ -1,0 +1,88 @@
+[data-letters]:before {
+    content:attr(data-letters);
+    display:inline-block;
+    font-size:1em;
+    width:2.5em;
+    height:2.5em;
+    line-height:2.5em;
+    text-align:center;
+    border-radius:50%;
+    background:plum;
+    vertical-align:middle;
+    margin-right:1em;
+    color:white;
+  }
+
+.relativediv{
+  position: relative;
+  margin-left: 10px;
+}
+
+.relativediv .userprofile {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: red;
+  color: white;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  font-size: 15px;
+}
+
+.relativediv .customprofiledropdown{
+  width: 200px;
+  position: absolute;
+  top: 60px;
+  right: -10px;
+  padding: 10px 20px;
+  background-color: #fff;
+  box-sizing: 0 5px 25px rgb(0 0 0 / 10%);
+  border-radius: 15px;
+  transition: 0.5s;
+  border: 1px solid #e4e4e4;
+  height: fit-content;
+  visibility: hidden;
+  opacity: 0;
+}
+
+.relativediv .customprofiledropdown.active {
+  visibility: visible;  
+  opacity: 1;
+}
+
+.relativediv .customprofiledropdown::before {
+  content: "";
+  position: absolute;
+  top: -5px;
+  right: 24px;
+  width: 20px;
+  height: 20px;
+  background-color: #fff;
+  transform: rotate(45deg);
+  border-top: 1px solid #e4e4e4;
+  border-left: 1px solid #e4e4e4;
+}
+
+.customprofiledropdown h3.menuname{
+  text-align: center; 
+  width: 100%;
+  font-size: 18px;
+  padding: 20px 0;
+  font-weight: 600;
+  line-height: 1.2em;
+  color: #db0606;
+  border-bottom: 1px solid #e4e4e4;
+
+
+}
+
+.menuname{
+
+}
