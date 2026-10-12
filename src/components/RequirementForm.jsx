@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { Form, Link, useActionData, useLoaderData } from "react-router-dom";
 
-import { PRIORITY, STATUS} from '../util/constants.js';
+import { PRIORITY_LABELS, PRIORITY_OPTIONS, STATUS_LABELS, STATUS_OPTIONS} from '../util/constants.js';
 import { getSubCategories, getNextIdentifier} from "../util/http.js";
 import { DisplayContext } from "../store/display-context.jsx";
 
@@ -88,15 +88,15 @@ export default function RequirementForm( { mode, requirement } ) {
                 <input type="text" id="description" name="description" placeholder="A description..." required defaultValue={requirement ? requirement.description: ''} readOnly={isReadOnly}></input>
 
                 <label htmlFor="priority">Priority *</label>
-                <select id="priority" name="priority" required defaultValue={requirement ? requirement.priority : ''} disabled={isReadOnly}>
-                    <option value="">Select</option> 
-                    { PRIORITY.map(pri => <option key={pri} value={pri}>{pri}</option>)}
+                <select id="priority" name="priority" required value={req.priority} onChange={e => setPriority(e.target.value)} disabled={isReadOnly}>
+                    <option value="">Select</option>
+                    {PRIORITY_OPTIONS.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
                 </select>
 
                 <label htmlFor="status">Status *</label>
-                <select id="status" name="status" required defaultValue={requirement ? requirement.status : ''} disabled={isReadOnly}>
-                    <option value="">Select</option> 
-                    { STATUS.map(status => <option key={status} value={status}>{status}</option> )}
+                <select id="status" name="status" required value={req.priority} onChange={e => setPriority(e.target.value)} disabled={isReadOnly}>
+                    <option value="">Select</option>
+                    {STATUS_OPTIONS.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
                 </select>
 
                 <label htmlFor="rationale">Rationale *</label>
