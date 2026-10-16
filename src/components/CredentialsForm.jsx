@@ -77,7 +77,7 @@ export default function CredentialsForm( {mode = 'signup'} ) {
               </div>}
             
 
-             {actionData && actionData.message && <p className="error">{actionData.message}</p>}
+             {actionData && actionData.message && <p className="error">{actionData.error}</p>}
 
               <button className="btn">
                 {mode === 'login' && "Sign In"}
