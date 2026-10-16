@@ -310,7 +310,7 @@ export default function ReportForm({ mode }) {
 
             <div className="form-group">
                 <label htmlFor="title">Project Name *</label>
-                <input type="text" id="title" name="title" placeholder="A title..." required defaultValue={loaderData.report ? loaderData.report.name : ''} ></input>
+                <input type="text" id="title" name="title" maxLength="50" placeholder="A title..." required defaultValue={loaderData.report ? loaderData.report.name : ''} ></input>
 
                 <label htmlFor="description">Description *</label>
                 <input type="text" id="description" name="description" placeholder="A description..." required defaultValue={loaderData.report ? loaderData.report.description : ''} ></input>
