@@ -42,6 +42,7 @@ function App() {
       {
         path: '/main',
         element: <RootLayout />,
+        loader: checkAuthLoader,
         errorElement: <ErrorPage />,
         children: [
           { index: true, element: <MainPage /> },

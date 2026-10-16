@@ -1,6 +1,7 @@
 import { redirect } from 'react-router-dom';
 import CredentialsForm from '../components/CredentialsForm.jsx';
 import { setAuthToken } from '../util/auth.js';
+import { API_URL } from '../util/http.js';
 
 export default function LoginPage() {
     return <CredentialsForm mode="login" />;
@@ -18,18 +19,17 @@ export async function action({ request }) {
         password: data.get('password'),
     }
 
-    const apiEndpoint = 'http://localhost:8080/auth/login';
+    const apiEndpoint = `${API_URL}/auth/login`;
       
     const response = await fetch(apiEndpoint, {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
+        headers: {'Content-Type': 'application/json'},
+        credentials: 'include',
         body: JSON.stringify(authData),
     });
 
-    if(response.status === 422 || response.status === 401) {
-        return { message: 'Invalid email or password.  Please try again', status: 401}
+    if (response.status === 400 || response.status === 401) {
+        return { error: 'Invalid email or password. Please try again.' };
     }
 
     if(!response.ok) {

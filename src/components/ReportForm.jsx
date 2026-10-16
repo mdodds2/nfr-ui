@@ -109,7 +109,7 @@ export default function ReportForm({ mode }) {
         displayContext.setSubCategoryId(subCategoryId);
     }
 
-    function handleDelete() {
+    async function handleDelete() {
         if (confirm("You have requested to delete this report.  Please confirm.")) {
             await deleteReport(loaderData.report.id);
             navigate("/reports/delete");
