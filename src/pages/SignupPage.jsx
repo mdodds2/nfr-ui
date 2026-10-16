@@ -39,7 +39,7 @@ export async function action({ request }) {
         body: JSON.stringify(signupData),
     });
 
-    if(response.status === 400) {
+    if (response.status === 400 || response.status === 409) {
         return await response.json();
     }
 
