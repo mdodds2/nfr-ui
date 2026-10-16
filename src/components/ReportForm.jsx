@@ -111,7 +111,7 @@ export default function ReportForm({ mode }) {
 
     function handleDelete() {
         if (confirm("You have requested to delete this report.  Please confirm.")) {
-            deleteReport(loaderData.report.id);
+            await deleteReport(loaderData.report.id);
             navigate("/reports/delete");
         }
         return false;
