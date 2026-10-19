@@ -36,7 +36,7 @@ export async function action({ request }) {
 
     const response = await addNewRequirement(reqtData);
 
-    if (response.status === 422) {
+    if (response.status === 400 || response.status === 409) {
         return await response.json();
     }
 

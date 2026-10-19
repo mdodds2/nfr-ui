@@ -36,11 +36,17 @@ export async function action({ request, params }) {
         riskIfViolated: formData.get('riskIfViolated'),
     }
 
-    const responseData = await updateRequirement(params.id, reqtData);
-    
+    const response = await updateRequirement(params.id, reqtData);
+
+    if (response.status === 400 || response.status === 409) {
+        return await response.json();
+    }
+
+    if (!response.ok) {
+        return {"error": "System error when updating requirement"};
+    }
 
     return redirect('/main/admin');
-
 }
 
 export async function loader({ request, params }) {

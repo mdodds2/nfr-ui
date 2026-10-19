@@ -2,6 +2,7 @@ import { useLoaderData } from "react-router-dom";
 import { getCategories, getReport, getUser } from "../util/http.js";
 import { useEffect, useState } from "react";
 import TwoColumnRow from "../ui/TwoColumnRow.jsx";
+import { checkAuthLoader } from "../util/auth.js";
 
 export default function ShowReport() {
     const { report, categories, user } = useLoaderData();
@@ -380,9 +381,13 @@ function Measurement( {measurement} ) {
 }
 
 export async function loader({ request, params }) {
+    const redirectResponse = checkAuthLoader();
+    if (redirectResponse) return redirectResponse;
+
     const reportId = params.id;
-    const report = await getReport(reportId);
-    const categories = await getCategories();
+
+    const [report, categories] = await Promise.all([getReport(reportId), getCategories()]);
+
     const user = await getUser(report.userId)
 
     const data = {
