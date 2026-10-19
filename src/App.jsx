@@ -2,8 +2,8 @@ import { useContext } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import LoginPage, { action as loginAction } from './pages/Login.jsx';
-import SignupPage, { action as signupAction } from './pages/SignupPage.jsx';
-import ForgotPage, {action as forgotAction } from './pages/ForgotPage.jsx';
+import SignupPage, { action as signupAction } from './pages/signup-action';
+import ForgotPage from './pages/ForgotPage.jsx';
 import MainPage from './pages/MainPage.jsx';
 import RootLayout from './pages/RootLayout.jsx';
 import AboutPage from './pages/AboutPage.jsx';
@@ -14,13 +14,22 @@ import LogoutPage from './pages/Logout.jsx';
 
 import ShowRequirements from './pages/ShowRequirements.jsx';
 import ShowRequirement from './pages/ShowRequirement.jsx';
-import NewRequirement, { action as addRequirementAction } from './pages/NewRequirement.jsx';
-import EditRequirement, { action as updateRequirementAction, loader as getRequirementLoader } from './pages/EditRequirement.jsx';
+import NewRequirement, { action as addRequirementAction } from './pages/new-requirement-action.js';
 
-import ReportsPage, { loader as getReportsForUser } from './pages/Reports.jsx';
-import NewReport, { action as addReportAction, loader as newReportLoader } from './pages/NewReport.jsx';
-import ShowReport, { loader as getReportLoader } from './pages/ShowReport.jsx';
-import EditReport, { loader as updateReportLoader, action as updateReportAction } from './pages/EditReport.jsx';
+import { action as updateRequirementAction } from './pages/EditRequirement-action.js';
+import { loader as getRequirementLoader } from './pages/EditRequirement-loader.js';
+import EditRequirement from './pages/EditRequirement.jsx';
+
+import ReportsPage, { loader as getReportsForUser } from './pages/reports-loader.jsx';
+
+import {action as addReportAction} from './pages/newReport-action.js';
+import {loader as addReportLoader} from './pages/newReport-action.js';
+import NewReport from './pages/NewReport.jsx';
+
+import ShowReport, { loader as getReportLoader } from './pages/show-report-loader.jsx';
+import { action as updateReportAction } from './pages/EditReport-action.js';
+import { loader as updateReportLoader } from './pages/EditReport-loader.js';
+import EditReport from './pages/EditReport.jsx';
 import DeleteReport from './pages/DeleteReport.jsx';
 
 import { getCategories } from './util/http.js';
@@ -37,7 +46,7 @@ function App() {
       { path: '/', element: <LoginPage />, errorElement: <ErrorPage />, action: loginAction },
       { path: '/login', element: <LoginPage />, errorElement: <ErrorPage />, action: loginAction },
       { path: '/signup', element: <SignupPage />, errorElement: <ErrorPage />, action: signupAction },
-      { path: '/forgot', element: <ForgotPage />, action: forgotAction },
+      { path: '/forgot', element: <ForgotPage /> },
 
       {
         path: '/main',

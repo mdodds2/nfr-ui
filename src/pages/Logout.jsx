@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { NavLink } from "react-router-dom";
 
-import { DisplayContext } from "../store/display-context";
+import { DisplayContext } from "../store/display-context-object";
 export default function LogoutPage() {
 
     const displayContext = useContext(DisplayContext);

@@ -10,7 +10,3 @@ export default function AboutPage() {
         </main>
     );
 }
-
-export function action() {
-
-}

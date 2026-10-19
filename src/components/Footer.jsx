@@ -1,9 +1,4 @@
-import { useEffect, useState } from 'react';
-
 export default function Footer() {
-
-    const [initialized, setInitialized] = useState(false);
-
 
     return(
         <section>

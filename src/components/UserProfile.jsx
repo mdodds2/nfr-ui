@@ -6,8 +6,6 @@ export default function UserProfile() {
 
     const expiry = new Date(userData.expiry * 1000).toLocaleString();
 
-    const window = (userData.expiry * 1000 - Date.now() ) / 1000 / 60;
-    
     return (
 
         <article>

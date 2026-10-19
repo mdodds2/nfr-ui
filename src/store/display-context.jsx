@@ -1,15 +1,5 @@
-import { createContext, useState } from 'react';
-
-export const DisplayContext = createContext({
-    categoryId: null,
-    setCategoryId: () => {},
-    subCategoryId: null,
-    setSubCategoryId: () => {},
-    subCategories: null,
-    setSubCategories: () => {},
-    cartCount: 0,
-    setCartCount: () => {},
-});
+import { useState } from 'react';
+import { DisplayContext } from 'display-context-object';
 
 export default function DisplayContextProvider( {children} ) {
 

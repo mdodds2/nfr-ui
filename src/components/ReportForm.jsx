@@ -1,6 +1,6 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { Form, Link, useActionData, useLoaderData, useNavigate } from "react-router-dom";
-import { DisplayContext } from "../store/display-context";
+import { DisplayContext } from "../store/display-context-object";
 import { getRequirementsForSubCategory } from "../util/http.js";
 import { deleteReport } from "../util/http.js";
 import Category from "../ui/Category.jsx";
@@ -71,7 +71,6 @@ export default function ReportForm({ mode }) {
         
         if (loaderData && loaderData.report && loaderData.report.measurements) {
             loaderData.report.requirements.forEach( (requirement) => {
-                
                 const category = findCategoryBySubCategoryId(loaderData.categories, requirement.subCategoryId);
                 const subCategory = findSubCategory(category.subCategories, requirement.subCategoryId);
                 const measurement = loaderData.report.measurements.find(m => m.requirementId === requirement.id);
@@ -356,10 +355,8 @@ export default function ReportForm({ mode }) {
                 <div className="center-container">
                     {requirements.map((requirement) =>
                         <Requirement
-                            key={requirement.id}
                             title={requirement.identifier}
                             caption={requirement.title}
-                            image="/QualityAttribute.jpg"
                             isAdded={cartHasRequirement(requirement.id)}
                             handleClick={() => handleSelectRequirement(requirement.id)}>
                             {!cartHasRequirement(requirement.id) && <a className="link-button-green" onClick={() => handleSelectRequirement(requirement.id)}>Add</a>}

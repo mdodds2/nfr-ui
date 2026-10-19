@@ -12,7 +12,7 @@ export default function NavBar() {
     function getInitials(userName) {
         var initials = "";
         var parts = userName.split(" ");
-        parts.map((part, index, array) => {
+        parts.map((part) => {
             initials += part.charAt(0);
         });
         return initials;

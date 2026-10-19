@@ -1,21 +1,23 @@
 import { useLoaderData } from "react-router-dom";
-import { getCategories, getReport, getUser } from "../util/http.js";
-import { useEffect, useState } from "react";
+
 import TwoColumnRow from "../ui/TwoColumnRow.jsx";
-import { checkAuthLoader } from "../util/auth.js";
 
 export default function ShowReport() {
     const { report, categories, user } = useLoaderData();
 
-    const [headings, setHeadings] = useState([]);
+    const hasRequirements = (sub) => report.requirements.some(r => r.subCategoryId === sub.id);
 
-    useEffect(() => {
-        const elements = Array.from(document.querySelectorAll("h2, h3, h4"))
-            .map((elem) => ({
-                text: elem.innerText,
-            }))
-        setHeadings(elements);
-    }, []);
+    const headings = [
+      { id: 'introduction', text: 'Introduction', level: 2 },
+      { id: 'overview', text: 'Overview', level: 2 },
+      { id: 'referenced-documents', text: 'Referenced Documents', level: 2 },
+      { id: 'quality-attributes', text: 'Quality Attributes', level: 2 },
+      ...categories.flatMap(c => [
+        { id: `cat-${c.id}`, text: `Category:  ${c.name}`, level: 2 },
+        ...c.subCategories.filter(hasRequirements)
+           .map(s => ({ id: `sub-${s.id}`, text: `Sub-Characteristic: ${s.name}`, level: 3 })),
+      ]),
+    ];
 
     return (
         <main className="report">
@@ -66,7 +68,7 @@ export default function ShowReport() {
                     <br />
                     <nav>
                         <ul>
-                            {headings.map((heading, index) => (
+                            {headings.map((heading) => (
                                 <li key={heading.text}>
                                     <a href="#">{heading.text}</a>
                                 </li>
@@ -380,23 +382,5 @@ function Measurement( {measurement} ) {
     </>;
 }
 
-export async function loader({ request, params }) {
-    const redirectResponse = checkAuthLoader();
-    if (redirectResponse) return redirectResponse;
-
-    const reportId = params.id;
-
-    const [report, categories] = await Promise.all([getReport(reportId), getCategories()]);
-
-    const user = await getUser(report.userId)
-
-    const data = {
-        report,
-        categories,
-        user
-    }
-
-    return data;
-}
 
 
