@@ -2,7 +2,7 @@ import { useLoaderData } from "react-router-dom";
 import MainNavigation from "../components/MainNavigation";
 import RequirementForm from "../components/RequirementForm";
 
-export default function ProfilePage() {
+export default function ShowRequirement() {
     const data = useLoaderData();
     return (
         <main className="main-content">
