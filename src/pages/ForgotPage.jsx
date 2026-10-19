@@ -1,5 +1,6 @@
 import { redirect } from "react-router-dom";
 import CredentialsForm from "../components/CredentialsForm";
+import { API_URL } from '../util/http.js';
 
 export default function ForgotPage() {
     return <CredentialsForm mode="forgot" />;
@@ -19,8 +20,8 @@ export async function action({ request }) {
         return { message: 'New password does not match confirmation password.  Please try again.', status: 401 }    
     }
 
-    const apiEndpoint = 'http://localhost:8080/auth/changePassword';
-      
+    const apiEndpoint = `${API_URL}/users/${userId}/change-password`;
+
     const response = await fetch(apiEndpoint, {
         method: 'POST',
         headers: {
