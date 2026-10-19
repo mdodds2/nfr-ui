@@ -14,7 +14,6 @@ export default function EditReport() {
     );
 }
 
-//export async function action({ request, params}) {
 export const action = (cartContext) => async ({ request, params }) => {
     const formData = await request.formData();
 
