@@ -5,6 +5,7 @@ import { apiFetch } from '../util/http.js';
 export default function ChangePassword() {
     const [open, setOpen] = useState(false);
     const [error, setError] = useState("");
+    const [message, setMessage] = useState("");
 
     async function handleSubmit(e) {
         e.preventDefault();
@@ -22,10 +23,13 @@ export default function ChangePassword() {
             setError((await res.json()).error); return;
         }
         setOpen(false);
+        setError("");
+        setMessage("Password successfully changed.")
     }
 
     return (
         <>
+            { message }
             {open && <form onSubmit={handleSubmit}>
                 { error }
                 <h2>Change Password Form</h2>
