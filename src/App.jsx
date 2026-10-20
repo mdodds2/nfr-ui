@@ -22,8 +22,8 @@ import EditRequirement from './pages/EditRequirement.jsx';
 
 import ReportsPage, { loader as getReportsForUser } from './pages/reports-loader.jsx';
 
-import {action as addReportAction} from './pages/newReport-action.js';
-import {loader as addReportLoader} from './pages/newReport-action.js';
+import {action as addReportAction} from './pages/NewReport-action.js';
+import {loader as addReportLoader} from './pages/NewReport-loader.js';
 import NewReport from './pages/NewReport.jsx';
 
 import ShowReport, { loader as getReportLoader } from './pages/show-report-loader.jsx';
@@ -83,7 +83,7 @@ function App() {
         errorElement: <ErrorPage />,
         children: [
           { path: '/reports/', element: <ReportsPage />, loader: getReportsForUser, HydrateFallback: () => null, },
-          { path: '/reports/new', element: <NewReport />, action: addReportAction(cartContext), loader: newReportLoader, HydrateFallback: () => null, },
+          { path: '/reports/new', element: <NewReport />, action: addReportAction(cartContext), loader: addReportLoader, HydrateFallback: () => null, },
           { path: '/reports/edit/:id', element: <EditReport />, action: updateReportAction(cartContext), loader: updateReportLoader, HydrateFallback: () => null, },
           { path: '/reports/delete', element: <DeleteReport />, },
         ]
