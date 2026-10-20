@@ -294,6 +294,7 @@ export default function ReportForm({ mode }) {
                 <div className="center-container">
                     {requirements.map((requirement) =>
                         <Requirement
+                            key={requirement.id}
                             title={requirement.identifier}
                             caption={requirement.title}
                             isAdded={cartHasRequirement(requirement.id)}

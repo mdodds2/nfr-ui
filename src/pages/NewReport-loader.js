@@ -1,12 +1,7 @@
-import { getCategories } from '../util/http';
+import { getCategories } from '../util/http.js';
 
-export async function loader() {
-
+export const loader = (cartContext) => async () => {
+    cartContext.clearCart();
     const categories = await getCategories();
-
-    const data = {
-        categories,
-    }
-
-    return data;
-}
+    return { categories };
+};

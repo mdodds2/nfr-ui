@@ -15,6 +15,7 @@ import ErrorPage from './pages/Error.jsx';
 import AdminPage from './pages/Admin.jsx';
 import ProfilePage from './pages/Profile.jsx';
 import LogoutPage from './pages/Logout.jsx';
+import { loader as logoutLoader} from './pages/Logout-loader.js';
 
 import ShowRequirements from './pages/ShowRequirements.jsx';
 import ShowRequirement from './pages/ShowRequirement.jsx';
@@ -43,13 +44,15 @@ import EditReport from './pages/EditReport.jsx';
 import DeleteReport from './pages/DeleteReport.jsx';
 
 import { getCategories } from './util/http.js';
-import { checkAuthLoader, logout as logoutLoader } from './util/auth.js';
+import { checkAuthLoader } from './util/auth.js';
 
 import CartContext from "./store/cart-context.jsx";
+import DisplayContext from "./store/display-context.jsx";
 
 function App() {
 
   const cartContext = useContext(CartContext);
+  const displayContext = useContext(DisplayContext);
   
   const router = createBrowserRouter(
     [
@@ -94,13 +97,13 @@ function App() {
         children: [
           { path: '/reports/', element: <ReportsPage />, loader: getReportsForUser, HydrateFallback: () => null, },
           { path: '/reports/new', element: <NewReport />, action: addReportAction(cartContext), loader: addReportLoader, HydrateFallback: () => null, },
-          { path: '/reports/edit/:id', element: <EditReport />, action: updateReportAction(cartContext), loader: updateReportLoader, HydrateFallback: () => null, },
+          { path: '/reports/edit/:id', element: <EditReport />, action: updateReportAction(cartContext), loader: updateReportLoader(cartContext), HydrateFallback: () => null, },
           { path: '/reports/delete', element: <DeleteReport />, },
         ]
       },
       { path: '/reports/display/:id', element: <ShowReport />, loader: getReportLoader, HydrateFallback: () => null, },
 
-      { path: '/logout', element: <LogoutPage />, loader: logoutLoader, HydrateFallback: () => null, },
+      { path: '/logout', element: <LogoutPage />, loader: logoutLoader(displayContext), HydrateFallback: () => null, },
     ]
   );
 
