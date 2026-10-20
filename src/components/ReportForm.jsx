@@ -8,7 +8,7 @@ import Requirement from "../ui/Requirement.jsx";
 import Modal from "../ui/Modal.jsx";
 import CartContext from "../store/cart-context.jsx";
 import Cart from "./Cart.jsx";
-import { findSubCategory} from "./util/report-cart.js";
+import { findSubCategory} from "../util/report-cart.js";
 
 export default function ReportForm({ mode }) {
 

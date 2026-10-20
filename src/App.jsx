@@ -1,8 +1,12 @@
 import { useContext } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
-import LoginPage, { action as loginAction } from './pages/Login.jsx';
-import SignupPage, { action as signupAction } from './pages/signup-action';
+import LoginPage from './pages/Login.jsx';
+import { action as loginAction } from './pages/Login-action.js';
+
+import SignupPage from './pages/SignupPage.jsx';
+import { action as signupAction } from './pages/SignupPage-action.js';
+
 import ForgotPage from './pages/ForgotPage.jsx';
 import MainPage from './pages/MainPage.jsx';
 import RootLayout from './pages/RootLayout.jsx';
@@ -14,22 +18,28 @@ import LogoutPage from './pages/Logout.jsx';
 
 import ShowRequirements from './pages/ShowRequirements.jsx';
 import ShowRequirement from './pages/ShowRequirement.jsx';
-import NewRequirement, { action as addRequirementAction } from './pages/new-requirement-action.js';
+
+import NewRequirement from './pages/NewRequirement.jsx';
+import { action as addRequirementAction } from './pages/NewRequirement-action.js';
 
 import { action as updateRequirementAction } from './pages/EditRequirement-action.js';
 import { loader as getRequirementLoader } from './pages/EditRequirement-loader.js';
 import EditRequirement from './pages/EditRequirement.jsx';
 
-import ReportsPage, { loader as getReportsForUser } from './pages/reports-loader.jsx';
+import ReportsPage from './pages/Reports.jsx';
+import { loader as getReportsForUser } from './pages/Reports-loader.js';
 
 import {action as addReportAction} from './pages/NewReport-action.js';
 import {loader as addReportLoader} from './pages/NewReport-loader.js';
 import NewReport from './pages/NewReport.jsx';
 
-import ShowReport, { loader as getReportLoader } from './pages/show-report-loader.jsx';
+import ShowReport from './pages/ShowReport.jsx';
+import { loader as getReportLoader } from './pages/ShowReport-loader.js';
+
 import { action as updateReportAction } from './pages/EditReport-action.js';
 import { loader as updateReportLoader } from './pages/EditReport-loader.js';
 import EditReport from './pages/EditReport.jsx';
+
 import DeleteReport from './pages/DeleteReport.jsx';
 
 import { getCategories } from './util/http.js';
