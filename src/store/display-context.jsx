@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { DisplayContext } from 'display-context-object';
+
+import { DisplayContext } from './display-context-object';
 
 export default function DisplayContextProvider( {children} ) {
 
