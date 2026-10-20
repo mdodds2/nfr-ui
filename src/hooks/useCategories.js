@@ -1,39 +1,27 @@
 import { useEffect, useState } from "react";
-import { getAuthToken } from "../util/auth";
+import { getCategories } from "../util/http";
 
 export default function useCategories() {
 
-    const [categories, setCategories] = useState();
-    const [isLoading, setIsLoading] = useState();
-    const [error, setError] = useState();
+    const [categories, setCategories] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [errorText, setErrorText] = useState(null)
 
     useEffect(() => {
-        async function handleFetchCategories() {
-
-            setIsLoading(true);
-            setError(null);
+        async function load() {
 
             try {
-                const response = await fetch('http://localhost:8080/categories', {
-                    method: 'GET',
-                    headers: {
-                    'Content-Type': 'text/plain',
-                    'Authorization': ' Bearer ' + getAuthToken(),
-                    },
-                });
-                const data = await response.json();
-                setCategories(data);
+                setCategories(await getCategories());
             }
-            catch(error) {
-                setError('Something went wrong when loading Categories');
+            catch {
+                setErrorText('Something went wrong when loading Categories');
             }
             finally {
                 setIsLoading(false);
             }
-        
         }
-        handleFetchCategories();
+        load();
     }, []);
     
-    return {categories, isLoading, error};
+    return {categories, isLoading, errorText};
 }

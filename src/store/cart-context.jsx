@@ -2,8 +2,8 @@ import { createContext, useReducer } from "react";
 
 const CartContext = createContext({
     items: [],
-    addItem: (item) => {},
-    removeItem: (id) => {},
+    addItem: () => {},
+    removeItem: () => {},
     clearCart: () => {},
 });
 

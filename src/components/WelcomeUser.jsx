@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext} from 'react';
+import { useContext} from 'react';
 import { LoginContext } from '../contexts/LoginContext.jsx';
 
 function WelcomeUser() {

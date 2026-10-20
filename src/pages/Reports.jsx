@@ -1,6 +1,4 @@
 import { Link, useLoaderData } from 'react-router-dom';
-import { getUserData } from '../util/auth.js';
-import { getReportsForUser } from '../util/http.js';
 
 import LayoutGrid from '../ui/LayoutGrid.jsx';
 import LayoutList from '../ui/LayoutList.jsx';
@@ -66,7 +64,3 @@ export default function ReportsPage() {
     );
 }
 
-export async function loader({ request, params }) {
-    const reports = await getReportsForUser(getUserData().id);
-    return reports;
-}

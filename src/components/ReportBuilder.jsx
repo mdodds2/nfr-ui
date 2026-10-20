@@ -4,14 +4,16 @@ import Category from '../ui/Category.jsx';
 
 import useCategories from '../hooks/useCategories.js';
 import { getSubCategories } from '../util/http.js';
-import { DisplayContext } from '../store/display-context.jsx';
+import { DisplayContext } from "../store/display-context-object";
 import Menu from '../ui/Menu.jsx';
 import MenuItem from '../ui/MenuItem.jsx';
 
 
 function ReportBuilder() {
   const displayContext = useContext(DisplayContext);
-  const {categories, isLoading, error} = useCategories();
+  const { categoryId, setSubCategories } = displayContext;
+
+  const {categories} = useCategories();
   const [category, setCategory ] = useState();
   const [subCategory, setSubCategory]  = useState();
 
@@ -51,16 +53,12 @@ function ReportBuilder() {
  
   useEffect( () => {
       async function fetchSubCategoryData() {
-          const subCategoriesResp = await getSubCategories(displayContext.categoryId);
-          displayContext.setSubCategories(subCategoriesResp);
+          setSubCategories(await getSubCategories(categoryId));
       }
 
-      if(displayContext.categoryId) {
-        fetchSubCategoryData();
-      }
+      if(categoryId) fetchSubCategoryData();
 
-  }, [displayContext.categoryId]);
-  
+  }, [categoryId, setSubCategories]);
 
   return (
       <div className="main-page">

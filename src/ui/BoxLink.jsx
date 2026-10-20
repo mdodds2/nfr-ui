@@ -1,5 +1,5 @@
 import { Fragment, useContext } from "react";
-import { DisplayContext } from "../store/display-context";
+import { DisplayContext } from "../store/display-context-object";
 
 export default function BoxLink( {id, selected, handleClick, children}) {
 

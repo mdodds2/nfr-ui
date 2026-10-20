@@ -1,6 +1,6 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { Form, Link, useActionData, useLoaderData, useNavigate } from "react-router-dom";
-import { DisplayContext } from "../store/display-context";
+import { DisplayContext } from "../store/display-context-object";
 import { getRequirementsForSubCategory } from "../util/http.js";
 import { deleteReport } from "../util/http.js";
 import Category from "../ui/Category.jsx";
@@ -8,6 +8,7 @@ import Requirement from "../ui/Requirement.jsx";
 import Modal from "../ui/Modal.jsx";
 import CartContext from "../store/cart-context.jsx";
 import Cart from "./Cart.jsx";
+import { findSubCategory} from "../util/report-cart.js";
 
 export default function ReportForm({ mode }) {
 
@@ -53,60 +54,17 @@ export default function ReportForm({ mode }) {
     const [open, setOpen] = useState(false);
     const [showCart, setShowCart] = useState(false);
 
-    useEffect(() => {
-        async function fetchRequirements(subCategoryId) {
-            const reqs = await getRequirementsForSubCategory(subCategoryId);
-            setRequirements(reqs);
-        }
-
-        setRequirements([]);
-        if (displayContext.categoryId && displayContext.subCategoryId) {
-            fetchRequirements(displayContext.subCategoryId);
-        }
-
-    }, [displayContext.categoryId, displayContext.subCategoryId]);
-
-    useEffect(() => {
-        cartContext.clearCart();
-        
-        if (loaderData && loaderData.report && loaderData.report.measurements) {
-            loaderData.report.requirements.forEach( (requirement) => {
-                
-                const category = findCategoryBySubCategoryId(loaderData.categories, requirement.subCategoryId);
-                const subCategory = findSubCategory(category.subCategories, requirement.subCategoryId);
-                const measurement = loaderData.report.measurements.find(m => m.requirementId === requirement.id);
-
-                const item = {
-                    "requirement": requirement,
-                    "category": category,
-                    "subCategory": subCategory,
-
-                    "id": measurement.id ?? "",
-                    "targetValue": measurement.targetValue ?? "",
-                    "thresholdValue": measurement.thresholdValue ?? "",
-                    "unit": measurement.unit ?? "",
-                    "measurementMethod": measurement.measurementMethod ?? "",
-                    "trigger": measurement.trigger ?? "",
-                    "context": measurement.context ?? "",
-                    "systemResponse": measurement.systemResponse ?? "",
-                    "owner": measurement.owner ?? "",
-                    "acceptanceCriteria": measurement.acceptanceCriteria ?? "",
-                    "notes": measurement.notes ?? ""
-                };
-                cartContext.addItem(item);
-            });
-        }
-    }, []);
-
     function handleCategory(categoryId) {
         displayContext.setCategoryId(categoryId);
         displayContext.setSubCategoryId(null);
+        setRequirements([]);
         const category = loaderData.categories.find(c => c.id === categoryId);
         displayContext.setSubCategories(category.subCategories);
     }
 
     async function handleSubCategory(subCategoryId) {
         displayContext.setSubCategoryId(subCategoryId);
+        setRequirements(subCategoryId ? await getRequirementsForSubCategory(subCategoryId) : []);
     }
 
     async function handleDelete() {
@@ -244,6 +202,7 @@ export default function ReportForm({ mode }) {
         displayContext.setCategoryId(null);
         displayContext.setSubCategoryId(null);
         displayContext.setSubCategories([]);
+        setRequirements([]);
     }
 
     function handleClose() {
@@ -257,27 +216,6 @@ export default function ReportForm({ mode }) {
             return category[0].name;
         else
             return "Unknown Characteristic";
-    }
-
-    function findCategoryBySubCategoryId(categories, subCategoryId) {
-        let category;
-        categories.forEach( cat => {
-            if(!category) {
-                const subCategory = cat.subCategories.find(sc => sc.id === subCategoryId);
-                if(subCategory) {
-                    category = cat;;
-                }   
-            }
-        });
-        return category;
-    }
-
-    function findSubCategory(subCategories, id) {
-        const subCategory = subCategories.filter(c => c.id === id);
-        if (subCategory.length > 0)
-            return subCategory[0];
-        else
-            return null;
     }
 
     function findSubCategoryName(subCategories, id) {
@@ -356,10 +294,8 @@ export default function ReportForm({ mode }) {
                 <div className="center-container">
                     {requirements.map((requirement) =>
                         <Requirement
-                            key={requirement.id}
                             title={requirement.identifier}
                             caption={requirement.title}
-                            image="/QualityAttribute.jpg"
                             isAdded={cartHasRequirement(requirement.id)}
                             handleClick={() => handleSelectRequirement(requirement.id)}>
                             {!cartHasRequirement(requirement.id) && <a className="link-button-green" onClick={() => handleSelectRequirement(requirement.id)}>Add</a>}

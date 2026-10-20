@@ -9,7 +9,7 @@ export default function Categories() {
     function fetchSubcategoryDescription(id) {
         document.getElementById('preview-placeholder').innerHTML = document.getElementById('sc_' + id).innerHTML;
     }
-    function restoreHome(desc) {
+    function restoreHome() {
         document.getElementById('preview-placeholder').innerHTML = document.getElementById('preview-home').innerHTML;
     }
 

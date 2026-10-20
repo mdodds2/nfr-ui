@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { Link, useLoaderData } from "react-router-dom";
 import { getSubCategories, getRequirementsForSubCategory } from "../util/http";
-import { DisplayContext } from "../store/display-context";
+import { DisplayContext } from "../store/display-context-object";
 
 export default function Requirements() {
 
@@ -12,11 +12,10 @@ export default function Requirements() {
     useEffect(() => {
         (async () => {
             if(displayContext.subCategoryId) {
-                const reqts = await getRequirementsForSubCategory(displayContext.subCategoryId);
-                setRequirements(reqts);
+                setRequirements(await getRequirementsForSubCategory(displayContext.subCategoryId));
             }
         })();
-    }, []);
+    }, [displayContext.subCategoryId]);
 
     async function handleCategory(event) {
         const id = event.target.value;

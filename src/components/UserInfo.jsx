@@ -3,7 +3,7 @@ import { useEffectEvent } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { getUserData, setAuthToken} from '../util/auth.js';
 
-function UserInfo(props) {
+function UserInfo() {
     
     const userData = getUserData();
 
@@ -31,7 +31,7 @@ function UserInfo(props) {
     function getInitials(userName) {
         var initials = "";
         var parts = userName.split(" ");
-        parts.map((part, index, array) => {
+        parts.map((part) => {
             initials += part.charAt(0);
         });
         return initials;
