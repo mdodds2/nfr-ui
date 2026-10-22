@@ -29,6 +29,8 @@ function UserInfo() {
     }, []);
 
     function getInitials(userName) {
+        if(!userName) return "";
+
         var initials = "";
         var parts = userName.split(" ");
         parts.map((part) => {
