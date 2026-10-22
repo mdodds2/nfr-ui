@@ -47,7 +47,7 @@ import { getCategories } from './util/http.js';
 import { checkAuthLoader } from './util/auth.js';
 
 import CartContext from "./store/cart-context.jsx";
-import DisplayContext from "./store/display-context.jsx";
+import { DisplayContext } from "./store/display-context-object";
 
 function App() {
 
@@ -96,7 +96,7 @@ function App() {
         errorElement: <ErrorPage />,
         children: [
           { path: '/reports/', element: <ReportsPage />, loader: getReportsForUser, HydrateFallback: () => null, },
-          { path: '/reports/new', element: <NewReport />, action: addReportAction(cartContext), loader: addReportLoader, HydrateFallback: () => null, },
+          { path: '/reports/new', element: <NewReport />, action: addReportAction(cartContext), loader: addReportLoader(cartContext), HydrateFallback: () => null, },
           { path: '/reports/edit/:id', element: <EditReport />, action: updateReportAction(cartContext), loader: updateReportLoader(cartContext), HydrateFallback: () => null, },
           { path: '/reports/delete', element: <DeleteReport />, },
         ]

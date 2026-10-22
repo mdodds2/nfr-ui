@@ -10,6 +10,7 @@ export default function NavBar() {
     const [showProfile, setShowProfile] = useState();
 
     function getInitials(userName) {
+        if (!userName) return "";
         var initials = "";
         var parts = userName.split(" ");
         parts.map((part) => {
