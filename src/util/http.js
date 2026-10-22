@@ -62,7 +62,7 @@ export const getRequirement = (id) => getJson('/requirements/' + id);
 export const getNextIdentifier = (catId, subId) => getJson('/requirements/nextIdentifier/' + catId + '/' + subId);
 export const getReportsForUser = (userId) => getJson('/users/' + userId + '/reports?sort=createdAt');
 export const getReport = (id) => getJson('/reports/' + id);
-export const getUser = (id) => getJson('/users/' + id);
+export const getUser = () => getJson('/users/me');
 
 export async function addNewRequirement(requirement) {
     return apiFetch('/requirements', { method: 'POST', body: JSON.stringify(requirement) });

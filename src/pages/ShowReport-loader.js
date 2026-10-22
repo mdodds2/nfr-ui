@@ -10,7 +10,7 @@ export async function loader({ params }) {
 
     const [report, categories] = await Promise.all([getReport(reportId), getCategories()]);
 
-    const user = await getUser(report.userId)
+    const user = await getUser();
 
     const data = {
         report,
