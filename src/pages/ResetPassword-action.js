@@ -15,7 +15,6 @@ export async function action({ request }) {
     try {
       await resetPassword({ token, newPassword });
     } catch {
-      console.log("caught error");
       return { error: 'This reset link is invalid or has expired.' };
     }
 

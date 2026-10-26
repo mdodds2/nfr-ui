@@ -60,7 +60,7 @@ export const getSubCategories = (id) => getJson('/categories/' + id + '/subcateg
 export const getRequirementsForSubCategory = (id) => getJson('/requirements/subCategory/' + id + '?sort=identifier');
 export const getRequirement = (id) => getJson('/requirements/' + id);
 export const getNextIdentifier = (catId, subId) => getJson('/requirements/nextIdentifier/' + catId + '/' + subId);
-export const getReportsForUser = () => getJson('/users/me/reports?sort=createdAt');
+export const getReportsForUser = () => getJson('/reports?sort=createdAt');
 export const getReport = (id) => getJson('/reports/' + id);
 export const getUser = () => getJson('/users/me');
 
