@@ -9,7 +9,7 @@ function About() {
             <h1>About NFR Report Builder</h1>
             <div className="tile-container">
                 <Document type="javadoc" title="Backend JavaDoc" location="#" />
-                <Document type="swagger" title="Backend Swagger Docs" location="http://localhost:8080/swagger-ui/index.html" />
+                <Document type="swagger" title="Backend Swagger Docs" location={import.meta.env.VITE_SWAGGER_URL} />
                 <Document type="pdf" title="Sprint Plan" location={SprintPlan} />
                 <Document type="pdf" title="Architectural Design" location="#" />
                 <Document type="pdf" title="Technical Design" location="#" />

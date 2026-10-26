@@ -1,6 +1,6 @@
 import { redirect } from 'react-router-dom';
 import { setAuthToken } from '../util/auth.js';
-import { API_URL } from '../util/http.js';
+import { apiFetch } from '../util/http.js';
 
 export async function action({ request }) {
 
@@ -10,14 +10,7 @@ export async function action({ request }) {
         password: data.get('password'),
     }
 
-    const apiEndpoint = `${API_URL}/auth/login`;
-
-    const response = await fetch(apiEndpoint, {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        credentials: 'include',
-        body: JSON.stringify(authData),
-    });
+    const response = await apiFetch('/auth/login', { method: 'POST', body: JSON.stringify(authData) });
 
     if (response.status === 400 || response.status === 401) {
         return { error: 'Invalid email or password. Please try again.' };
