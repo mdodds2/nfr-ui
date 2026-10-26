@@ -1,6 +1,6 @@
 import { redirect } from 'react-router-dom';
 import { setAuthToken } from '../util/auth.js';
-import { API_URL } from '../util/http.js';
+import { apiFetch } from '../util/http.js';
 
 export async function action({ request }) {
 
@@ -9,8 +9,6 @@ export async function action({ request }) {
         email: data.get('email'),
         password: data.get('password'),
     }
-
-    const apiEndpoint = `${API_URL}/auth/login`;
 
     const response = await apiFetch('/auth/login', { method: 'POST', body: JSON.stringify(authData) });
 
