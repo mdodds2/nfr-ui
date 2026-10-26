@@ -1,4 +1,5 @@
 import { redirect } from "react-router-dom";
+import { apiFetch } from "../util/http.js";
 
 export async function action({ request }) {
 
@@ -26,13 +27,7 @@ export async function action({ request }) {
         password: enteredData.password,
     }
 
-    const response = await fetch('http://localhost:8080/users', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(signupData),
-    });
+    const response = await apiFetch('/users', { method: 'POST', body: JSON.stringify(signupData) });
 
     if (response.status === 400 || response.status === 409) {
         return await response.json();
