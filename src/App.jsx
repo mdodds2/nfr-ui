@@ -8,6 +8,11 @@ import SignupPage from './pages/SignupPage.jsx';
 import { action as signupAction } from './pages/SignupPage-action.js';
 
 import ForgotPage from './pages/ForgotPage.jsx';
+import { action as forgotAction } from './pages/ForgotPage-action.js';
+
+import ResetPassword from './pages/ResetPassword.jsx';
+import { action as resetPasswordAction } from './pages/ResetPassword-action.js';
+
 import MainPage from './pages/MainPage.jsx';
 import RootLayout from './pages/RootLayout.jsx';
 import AboutPage from './pages/AboutPage.jsx';
@@ -59,7 +64,8 @@ function App() {
       { path: '/', element: <LoginPage />, errorElement: <ErrorPage />, action: loginAction },
       { path: '/login', element: <LoginPage />, errorElement: <ErrorPage />, action: loginAction },
       { path: '/signup', element: <SignupPage />, errorElement: <ErrorPage />, action: signupAction },
-      { path: '/forgot', element: <ForgotPage /> },
+      { path: '/forgot', element: <ForgotPage />, action: forgotAction },
+      { path: '/reset-password', element: <ResetPassword />, action: resetPasswordAction },
 
       {
         path: '/main',
