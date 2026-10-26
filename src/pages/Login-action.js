@@ -12,12 +12,7 @@ export async function action({ request }) {
 
     const apiEndpoint = `${API_URL}/auth/login`;
 
-    const response = await fetch(apiEndpoint, {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        credentials: 'include',
-        body: JSON.stringify(authData),
-    });
+    const response = await apiFetch('/auth/login', { method: 'POST', body: JSON.stringify(authData) });
 
     if (response.status === 400 || response.status === 401) {
         return { error: 'Invalid email or password. Please try again.' };

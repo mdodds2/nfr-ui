@@ -13,9 +13,12 @@ export async function action({ request }) {
     }
 
     try {
-      await resetPassword({ token, newPassword });
+      const response = await resetPassword({ token, newPassword });
+      if(!response.ok) {
+        return {error: "This reset link is invalid or has expired."}
+      }
     } catch {
-      return { error: 'This reset link is invalid or has expired.' };
+      return { error: 'Could not reach the server.  Please try again.' };
     }
 
     return redirect('/login');

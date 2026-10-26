@@ -90,9 +90,5 @@ export async function forgotPassword(request) {
 }
 
 export async function resetPassword(request) {
-    const response = await apiFetch('/auth/reset-password', { method: 'POST', body: JSON.stringify(request) });
-    if(response.status !== 204) {
-        throw new Error("Invalid response from reset password request");
-    }
-    return response;
+    return apiFetch('/auth/reset-password', { method: 'POST', body: JSON.stringify(request) });
 }
