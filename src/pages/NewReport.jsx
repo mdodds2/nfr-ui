@@ -6,6 +6,7 @@ export default function NewReport() {
 
     const { clearCart } = useContext(CartContext);
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => { clearCart(); }, []);
 
     return (
