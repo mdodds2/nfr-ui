@@ -28,7 +28,7 @@ export default function NavBar() {
             </div>
 
             <div className="nav-title">
-                <h2>Quality Attributes Test Plan Builder</h2>
+                <h2>{import.meta.env.VITE_APP_TITLE}</h2>
             </div>
 
         </div>
