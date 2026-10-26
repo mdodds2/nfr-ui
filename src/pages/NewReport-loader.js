@@ -1,7 +1,4 @@
 import { getCategories } from '../util/http.js';
 
-export const loader = (cartContext) => async () => {
-    cartContext.clearCart();
-    const categories = await getCategories();
-    return { categories };
-};
+// NewReport-loader.js
+export const loader = async () => ({ categories: await getCategories() });

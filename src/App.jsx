@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useMemo, useRef } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import LoginPage from './pages/Login.jsx';
@@ -58,9 +58,14 @@ function App() {
 
   const cartContext = useContext(CartContext);
   const displayContext = useContext(DisplayContext);
-  
-  const router = createBrowserRouter(
-    [
+
+  const cartRef = useRef(cartContext);
+  cartRef.current = cartContext; // updated every render
+
+  const displayRef = useRef(displayContext);
+  displayRef.current = displayContext; // updated every render
+
+  const router = useMemo( () => createBrowserRouter([
       { path: '/', element: <LoginPage />, errorElement: <ErrorPage />, action: loginAction },
       { path: '/login', element: <LoginPage />, errorElement: <ErrorPage />, action: loginAction },
       { path: '/signup', element: <SignupPage />, errorElement: <ErrorPage />, action: signupAction },
@@ -102,16 +107,15 @@ function App() {
         errorElement: <ErrorPage />,
         children: [
           { path: '/reports/', element: <ReportsPage />, loader: getReportsForUser, HydrateFallback: () => null, },
-          { path: '/reports/new', element: <NewReport />, action: addReportAction(cartContext), loader: addReportLoader(cartContext), HydrateFallback: () => null, },
-          { path: '/reports/edit/:id', element: <EditReport />, action: updateReportAction(cartContext), loader: updateReportLoader(cartContext), HydrateFallback: () => null, },
+          { path: '/reports/new', element: <NewReport />, action: addReportAction(cartRef), loader: addReportLoader, HydrateFallback: () => null, },
+          { path: '/reports/edit/:id', element: <EditReport />, action: updateReportAction(cartRef), loader: updateReportLoader(cartRef), HydrateFallback: () => null, },
           { path: '/reports/delete', element: <DeleteReport />, },
         ]
       },
       { path: '/reports/display/:id', element: <ShowReport />, loader: getReportLoader, HydrateFallback: () => null, },
 
-      { path: '/logout', element: <LogoutPage />, loader: logoutLoader(displayContext), HydrateFallback: () => null, },
-    ]
-  );
+      { path: '/logout', element: <LogoutPage />, loader: logoutLoader(displayRef), HydrateFallback: () => null, },
+    ]), []);
 
   return <RouterProvider router={router} />
 }

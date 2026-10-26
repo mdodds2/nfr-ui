@@ -2,8 +2,9 @@ import { redirect } from 'react-router-dom';
 import { addNewReport } from '../util/http';
 import { getUserData } from '../util/auth.js';
 
-export const action = (cartContext) => async ({ request }) => {
+export const action = (cartRef) => async ({request}) => {
     const formData = await request.formData();
+    const items = cartRef.current.items;
 
     const reportData = {
         userId: getUserData().id,
@@ -13,11 +14,11 @@ export const action = (cartContext) => async ({ request }) => {
         measurements: [],
     }
 
-    if (cartContext.items.length === 0) {
+    if (items.length === 0) {
         return { error: 'Please select at least 1 Quality Attribute to create this report.' };
     }
 
-    cartContext.items.forEach(item => {
+    items.forEach(item => {
         reportData.requirementIds = [...reportData.requirementIds, item.requirement.id];
 
         reportData.measurements = [...reportData.measurements,
@@ -47,6 +48,7 @@ export const action = (cartContext) => async ({ request }) => {
         return { "error": "System error when adding report." };
     }
 
+    cartRef.current.clearCart();
     return redirect('/reports');
 }
 
