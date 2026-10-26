@@ -1,15 +1,8 @@
 import { getCategories, getReport } from '../util/http.js';
+import { buildCartItems } from '../util/report-cart.js';
 
-export async function loader({ params }) {
-    const reportId = params.id;
-    const report = await getReport(reportId);
-
-    const categories = await getCategories();
-
-    const data = {
-        report,
-        categories
-    }
-
-    return data;
-}
+export const loader = (cartContext) => async ({ params }) => {
+    const [report, categories] = await Promise.all([getReport(params.id), getCategories()]);
+    cartContext.setItems(buildCartItems(report, categories));
+    return { report, categories };
+};

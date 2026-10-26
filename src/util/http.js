@@ -60,9 +60,10 @@ export const getSubCategories = (id) => getJson('/categories/' + id + '/subcateg
 export const getRequirementsForSubCategory = (id) => getJson('/requirements/subCategory/' + id + '?sort=identifier');
 export const getRequirement = (id) => getJson('/requirements/' + id);
 export const getNextIdentifier = (catId, subId) => getJson('/requirements/nextIdentifier/' + catId + '/' + subId);
-export const getReportsForUser = (userId) => getJson('/users/' + userId + '/reports?sort=createdAt');
+export const getReportsForUser = () => getJson('/users/me/reports?sort=createdAt');
 export const getReport = (id) => getJson('/reports/' + id);
-export const getUser = (id) => getJson('/users/' + id);
+export const getUser = () => getJson('/users/me');
+
 
 export async function addNewRequirement(requirement) {
     return apiFetch('/requirements', { method: 'POST', body: JSON.stringify(requirement) });
@@ -82,4 +83,16 @@ export async function updateReport(reportId, report) {
 
 export async function deleteReport(id) {
     return apiFetch('/reports/' + id, { method: 'DELETE'})
+}
+
+export async function forgotPassword(request) {
+    return apiFetch('/auth/forgot-password', { method: 'POST', body: JSON.stringify(request) });
+}
+
+export async function resetPassword(request) {
+    const response = await apiFetch('/auth/reset-password', { method: 'POST', body: JSON.stringify(request) });
+    if(response.status !== 204) {
+        throw new Error("Invalid response from reset password request");
+    }
+    return response;
 }

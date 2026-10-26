@@ -8,6 +8,11 @@ import SignupPage from './pages/SignupPage.jsx';
 import { action as signupAction } from './pages/SignupPage-action.js';
 
 import ForgotPage from './pages/ForgotPage.jsx';
+import { action as forgotAction } from './pages/ForgotPage-action.js';
+
+import ResetPassword from './pages/ResetPassword.jsx';
+import { action as resetPasswordAction } from './pages/ResetPassword-action.js';
+
 import MainPage from './pages/MainPage.jsx';
 import RootLayout from './pages/RootLayout.jsx';
 import AboutPage from './pages/AboutPage.jsx';
@@ -15,6 +20,7 @@ import ErrorPage from './pages/Error.jsx';
 import AdminPage from './pages/Admin.jsx';
 import ProfilePage from './pages/Profile.jsx';
 import LogoutPage from './pages/Logout.jsx';
+import { loader as logoutLoader} from './pages/Logout-loader.js';
 
 import ShowRequirements from './pages/ShowRequirements.jsx';
 import ShowRequirement from './pages/ShowRequirement.jsx';
@@ -43,20 +49,23 @@ import EditReport from './pages/EditReport.jsx';
 import DeleteReport from './pages/DeleteReport.jsx';
 
 import { getCategories } from './util/http.js';
-import { checkAuthLoader, logout as logoutLoader } from './util/auth.js';
+import { checkAuthLoader } from './util/auth.js';
 
 import CartContext from "./store/cart-context.jsx";
+import { DisplayContext } from "./store/display-context-object";
 
 function App() {
 
   const cartContext = useContext(CartContext);
+  const displayContext = useContext(DisplayContext);
   
   const router = createBrowserRouter(
     [
       { path: '/', element: <LoginPage />, errorElement: <ErrorPage />, action: loginAction },
       { path: '/login', element: <LoginPage />, errorElement: <ErrorPage />, action: loginAction },
       { path: '/signup', element: <SignupPage />, errorElement: <ErrorPage />, action: signupAction },
-      { path: '/forgot', element: <ForgotPage /> },
+      { path: '/forgot', element: <ForgotPage />, action: forgotAction },
+      { path: '/reset-password', element: <ResetPassword />, action: resetPasswordAction },
 
       {
         path: '/main',
@@ -93,14 +102,14 @@ function App() {
         errorElement: <ErrorPage />,
         children: [
           { path: '/reports/', element: <ReportsPage />, loader: getReportsForUser, HydrateFallback: () => null, },
-          { path: '/reports/new', element: <NewReport />, action: addReportAction(cartContext), loader: addReportLoader, HydrateFallback: () => null, },
-          { path: '/reports/edit/:id', element: <EditReport />, action: updateReportAction(cartContext), loader: updateReportLoader, HydrateFallback: () => null, },
+          { path: '/reports/new', element: <NewReport />, action: addReportAction(cartContext), loader: addReportLoader(cartContext), HydrateFallback: () => null, },
+          { path: '/reports/edit/:id', element: <EditReport />, action: updateReportAction(cartContext), loader: updateReportLoader(cartContext), HydrateFallback: () => null, },
           { path: '/reports/delete', element: <DeleteReport />, },
         ]
       },
       { path: '/reports/display/:id', element: <ShowReport />, loader: getReportLoader, HydrateFallback: () => null, },
 
-      { path: '/logout', element: <LogoutPage />, loader: logoutLoader, HydrateFallback: () => null, },
+      { path: '/logout', element: <LogoutPage />, loader: logoutLoader(displayContext), HydrateFallback: () => null, },
     ]
   );
 

@@ -1,4 +1,4 @@
-import { getCategories, getReport, getUser } from "../util/http.js";
+import { getCategories, getReport } from "../util/http.js";
 
 import { checkAuthLoader } from "../util/auth.js";
 
@@ -10,12 +10,9 @@ export async function loader({ params }) {
 
     const [report, categories] = await Promise.all([getReport(reportId), getCategories()]);
 
-    const user = await getUser(report.userId)
-
     const data = {
         report,
         categories,
-        user
     }
 
     return data;

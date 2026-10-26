@@ -17,13 +17,12 @@ function cartReducer(state, action) {
         return {...state, items: updatedItems };
     }
 
+    if (action.type === 'SET_ITEMS') {
+        return { ...state, items: action.items };
+    }
+
     if(action.type === 'REMOVE_ITEM') {
-        const existingCartItemIndex = state.items.findIndex(
-            (item) => item.requirementId === action.id
-        );
-        const updatedItems = [...state.items];
-        updatedItems.splice(existingCartItemIndex, 1);
-        return {...state, items: updatedItems };
+        return { ...state, items: state.items.filter(item => item.requirement.id !== action.id) };
     }
 
     if(action.type === 'CLEAR_CART') {
@@ -41,6 +40,10 @@ export function CartContextProvider({children}) {
         dispatchCartAction( {type: 'ADD_ITEM', item} );
     }
 
+    function setItems(items) {
+        dispatchCartAction({ type: 'SET_ITEMS', items });
+    }
+
     function removeItem(id) {
         dispatchCartAction( {type: 'REMOVE_ITEM', id });
     }
@@ -52,6 +55,7 @@ export function CartContextProvider({children}) {
     const cartContextValue = {
         items: cart.items,
         addItem,
+        setItems,
         removeItem,
         clearCart,    
     };

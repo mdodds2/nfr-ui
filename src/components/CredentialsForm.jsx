@@ -10,14 +10,14 @@ export default function CredentialsForm( {mode = 'signup'} ) {
         <div className="login-card">
           <div className="login-header">
             <h1>NFR Report Builder</h1>
-            <p>Sign in to start creating</p>
+
           </div>
 
           <div className="login-body">
 
             <Form method="POST" className="login-form">
 
-              { mode === 'signup' && <div className="form-group">
+              { (mode === 'signup') && <div className="form-group">
                 <label htmlFor="name">Name</label>
                 <input 
                   type="text" 
@@ -28,7 +28,7 @@ export default function CredentialsForm( {mode = 'signup'} ) {
                 />
               </div>}
 
-              <div className="form-group">
+              { mode !== 'reset' && <div className="form-group">
                 <label htmlFor="email">Email</label>
                   <input 
                     type="email" 
@@ -37,37 +37,41 @@ export default function CredentialsForm( {mode = 'signup'} ) {
                     placeholder="name@company.com" 
                     required
                 />
-              </div>
+              </div> }
 
-              <div className="form-group">
+              { (mode === 'signup' || mode === 'login') && <div className="form-group">
                 <label htmlFor="password">{mode === 'forgot' && "Current "}Password</label>
                 <input 
                   type="password" 
                   id="password" 
                   name="password"
-                  placeholder="••••••••" 
+                  placeholder="••••••••"
+                  minLength="8"
                   required 
                 />
-              </div>
+              </div> }
 
-              { mode === 'forgot' && <div className="form-group">
+
+              { (mode === 'signup' || mode === 'reset') && <div className="form-group">
                 <label htmlFor="newPassword">New Password</label>
                 <input 
                   type="password" 
                   id="newPassword" 
                   name="newPassword"
-                  placeholder="••••••••" 
+                  placeholder="••••••••"
+                  minLength="8"
                   required 
                 />
               </div> }
 
-              { (mode === 'signup' || mode === 'forgot') && <div className="form-group">
+              { (mode === 'signup' || mode === 'reset') && <div className="form-group">
                 <label htmlFor="confirmPassword">Confirm New Password</label>
                 <input 
                   type="password" 
                   id="confirmPassword" 
                   name="confirmPassword"
-                  placeholder="••••••••" 
+                  placeholder="••••••••"
+                  minLength="8"
                   required 
                 />
               </div>}
@@ -82,7 +86,8 @@ export default function CredentialsForm( {mode = 'signup'} ) {
               <button className="btn">
                 {mode === 'login' && "Sign In"}
                 {mode === 'signup' && "Sign Up"}
-                {mode === 'forgot' && "Change Password"}
+                {mode === 'forgot' && "Request Password Change"}
+                {mode === 'reset' && "Reset Password"}
               </button>
             </Form>
 
@@ -93,7 +98,6 @@ export default function CredentialsForm( {mode = 'signup'} ) {
             {mode !== 'login' && <div className="signup">
                 <Link to="/">Cancel</Link>
             </div>}
-
           </div>
         </div>
       </div>

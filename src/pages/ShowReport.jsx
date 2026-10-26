@@ -3,7 +3,7 @@ import { useLoaderData } from "react-router-dom";
 import TwoColumnRow from "../ui/TwoColumnRow.jsx";
 
 export default function ShowReport() {
-    const { report, categories, user } = useLoaderData();
+    const { report, categories } = useLoaderData();
 
     const hasRequirements = (sub) => report.requirements.some(r => r.subCategoryId === sub.id);
 
@@ -57,7 +57,7 @@ export default function ShowReport() {
                                 <td>{report && report.createdAt}</td>
                                 <td>1.0</td>
                                 <td>{report && report.description}</td>
-                                <td>{user.name}</td>
+                                <td>{report.userName}</td>
                             </tr>
                         </tbody>
                     </table>
