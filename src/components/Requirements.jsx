@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { Link, useLoaderData } from "react-router-dom";
 import { getSubCategories, getRequirementsForSubCategory } from "../util/http";
 import { DisplayContext } from "../store/display-context-object";
+import { label, PRIORITY_LABELS, STATUS_LABELS } from '../util/constants.js';
 
 export default function Requirements() {
 
@@ -84,8 +85,8 @@ export default function Requirements() {
                         </td>
                         <td><Link to={`/requirements/display/${requirement.id}`}>{requirement.identifier}</Link></td>
                         <td>{requirement.title}</td>
-                        <td>{requirement.priority}</td>
-                        <td>{requirement.status}</td>
+                        <td>{label(PRIORITY_LABELS, requirement.priority)}</td>
+                        <td>{label(STATUS_LABELS, requirement.status)}</td>
                     </tr>
                 )}
             </tbody>

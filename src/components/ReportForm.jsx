@@ -1,14 +1,14 @@
 import { useContext, useRef, useState } from "react";
 import { Form, Link, useActionData, useLoaderData, useNavigate } from "react-router-dom";
 import { DisplayContext } from "../store/display-context-object";
-import { getRequirementsForSubCategory } from "../util/http.js";
-import { deleteReport } from "../util/http.js";
+import { getRequirementsForSubCategory, deleteReport } from "../util/http.js";
 import Category from "../ui/Category.jsx";
 import Requirement from "../ui/Requirement.jsx";
 import Modal from "../ui/Modal.jsx";
 import CartContext from "../store/cart-context.jsx";
 import Cart from "./Cart.jsx";
 import { findSubCategory} from "../util/report-cart.js";
+import { label, PRIORITY_LABELS, STATUS_LABELS } from '../util/constants.js';
 
 export default function ReportForm({ mode }) {
 
@@ -323,7 +323,7 @@ export default function ReportForm({ mode }) {
 
                         <div className="table-row">
                             <div className="table-heading-fixed">Priority / Status:</div>
-                            <div className="table-cell-fixed">{currentRequirement.priority} / {currentRequirement.status}</div>
+                            <div className="table-cell-fixed">{label(PRIORITY_LABELS, currentRequirement.priority)} / {label(STATUS_LABELS, currentRequirement.status)}</div>
                         </div>
 
                         <div className="table-row">
