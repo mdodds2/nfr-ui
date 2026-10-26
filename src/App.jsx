@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/refs -- loaders/actions read ref.current at navigation time, not during render */
+
 import { useContext, useMemo, useRef } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
