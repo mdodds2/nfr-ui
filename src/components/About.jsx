@@ -1,7 +1,6 @@
 import Document from "../ui/Document";
 
 import SprintPlan from "../assets/SprintPlan.pdf";
-import { API_URL } from "../util/http.js";
 
 function About() {
 
