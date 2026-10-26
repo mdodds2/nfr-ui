@@ -1,11 +1,11 @@
 import { logout } from '../util/auth.js';
 
-export const loader = (displayContext) => async () => {
+export const loader = (displayRef) => async () => {
     logout();
 
-    displayContext.setCategoryId(null);
-    displayContext.setSubCategoryId(null);
-    displayContext.setSubCategories(null);
+    displayRef.current.setCategoryId(null);
+    displayRef.current.setSubCategoryId(null);
+    displayRef.current.setSubCategories(null);
 
     return null;
 }
