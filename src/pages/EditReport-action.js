@@ -2,8 +2,9 @@ import { updateReport } from '../util/http.js';
 import { getUserData } from '../util/auth.js';
 import { redirect } from 'react-router-dom';
 
-export const action = (cartContext) => async ({ request, params }) => {
+export const action = (cartRef) => async ({ request, params }) => {
     const formData = await request.formData();
+    const items = cartRef.current.items;
 
     const reportData = {
         userId: getUserData().id,
@@ -13,17 +14,17 @@ export const action = (cartContext) => async ({ request, params }) => {
         measurements: [],
     }
 
-    if (cartContext.items.length === 0) {
+    if (items.length === 0) {
         return { error: 'Please select at least 1 Quality Attribute to create this report.' };
     }
 
-    cartContext.items.forEach(item => {
+    items.forEach(item => {
         reportData.requirementIds = [...reportData.requirementIds, item.requirement.id];
 
         reportData.measurements = [...reportData.measurements,
             {
                 "id": item.id ?? "",
-                "requirementId": item.requirement.id ?? "",
+                "requirementId": item.requirement.id,
                 "targetValue": item.targetValue ?? "",
                 "thresholdValue": item.thresholdValue ?? "",
                 "unit": item.unit ?? "",
@@ -48,5 +49,6 @@ export const action = (cartContext) => async ({ request, params }) => {
         return {"error": "System error when updating report"};
     }
 
+    cartRef.current.clearCart();
     return redirect('/reports');
 }
