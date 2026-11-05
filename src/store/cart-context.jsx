@@ -10,10 +10,12 @@ const CartContext = createContext({
 function cartReducer(state, action) {
     if(action.type === 'ADD_ITEM') {
         const updatedItems = [...state.items];
-        updatedItems.push( {
-            ...action.item,
-        });
 
+        if (!updatedItems.some(e => e.requirement.id === action.item.requirement.id)) {
+            updatedItems.push( {
+                ...action.item,
+            });
+        }
         return {...state, items: updatedItems };
     }
 
