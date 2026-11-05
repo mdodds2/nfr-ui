@@ -8,7 +8,7 @@ export function buildCartItems(report, categories) {
     if (!report?.requirements || !report.measurements) return [];
     return report.requirements.map(requirement => {
         const category = findCategoryBySubCategoryId(categories, requirement.subCategoryId);
-        const subCategory = findSubCategory(category.subCategories, requirement.subCategoryId);
+        const subCategory = findSubCategory(category?.subCategories ?? [], requirement.subCategoryId);
         const m = report.measurements.find(x => x.requirementId === requirement.id) ?? {};
         return {
             requirement, category, subCategory,

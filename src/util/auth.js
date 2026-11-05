@@ -21,7 +21,7 @@ export function getUserData() {
 
     const token = getAuthToken();
 
-    if(!token || token === null || token === 'null' || token === undefined) {
+    if(!token || token === null) {
         return { noAuth: true};
     }
         
