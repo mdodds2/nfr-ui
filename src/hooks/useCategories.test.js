@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { renderHook, waitFor } from '@testing-library/react';
+import { renderHook, waitFor, act } from '@testing-library/react';
 import useCategories from './useCategories';
 import { getCategories } from '../util/http';
 
@@ -11,7 +11,7 @@ describe('useCategories', () => {
     vi.resetAllMocks();
   });
 
-  it('starts in a loading state', () => {
+  it('starts in a loading state', async () => {
     let resolve;
     getCategories.mockReturnValueOnce(new Promise((r) => { resolve = r; }));
 
@@ -21,7 +21,9 @@ describe('useCategories', () => {
     expect(result.current.categories).toEqual([]);
     expect(result.current.errorText).toBeNull();
 
-    resolve([]); // let the effect finish so Vitest doesn't warn about an open promise
+    await act(async () => {
+      resolve([]);
+    });
   });
 
   it('loads categories on success', async () => {

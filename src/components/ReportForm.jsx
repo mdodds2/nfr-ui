@@ -105,8 +105,8 @@ export default function ReportForm({ mode }) {
             "notes": ""
         });
 
-        const requirment = requirements.filter(r => r.id === reqtId);
-        setCurrentRequirement(requirment[0]);
+        const req = requirements.filter(r => r.id === reqtId);
+        setCurrentRequirement(req[0]);
     }
 
     function handlePrepareUpdateRequirement(reqtId) {
@@ -184,7 +184,7 @@ export default function ReportForm({ mode }) {
         };
 
         if (isUpdate) {
-            cartContext.removeItem(item);
+            cartContext.removeItem(item.requirement.id);
         }
         cartContext.addItem(item);
 
@@ -255,8 +255,21 @@ export default function ReportForm({ mode }) {
 
                 <br />
 
-                {displayContext.categoryId && !displayContext.subCategoryId && <p className="title"><a href="#" onClick={handleHome}>Home</a> / <a href="#" onClick={() => handleCategory(displayContext.categoryId)}>{findCategoryName(displayContext.categoryId)}</a></p>}
-                {displayContext.categoryId && displayContext.subCategoryId && <p className="title"><a href="#" onClick={handleHome}>Home</a> / <a href="#" onClick={() => handleCategory(displayContext.categoryId)}>{findCategoryName(displayContext.categoryId)}</a> / {findSubCategoryName(displayContext.subCategories, displayContext.subCategoryId)}</p>}
+                {displayContext.categoryId && (
+                  <p className="title">
+                    <a href="#" onClick={handleHome}>Home</a>
+                    {' / '}
+                    <a href="#" onClick={() => handleCategory(displayContext.categoryId)}>
+                      {findCategoryName(displayContext.categoryId)}
+                    </a>
+                    {displayContext.subCategoryId && (
+                      <>
+                        {' / '}
+                        {findSubCategoryName(displayContext.subCategories, displayContext.subCategoryId)}
+                      </>
+                    )}
+                  </p>
+                )}
 
                 <div>
                     <p className="title">Characteristics:</p>
@@ -297,8 +310,7 @@ export default function ReportForm({ mode }) {
                             key={requirement.id}
                             title={requirement.identifier}
                             caption={requirement.title}
-                            isAdded={cartHasRequirement(requirement.id)}
-                            handleClick={() => handleSelectRequirement(requirement.id)}>
+                            isAdded={cartHasRequirement(requirement.id)}>
                             {!cartHasRequirement(requirement.id) && <a className="link-button-green" onClick={() => handleSelectRequirement(requirement.id)}>Add</a>}
                             {cartHasRequirement(requirement.id) && <a className="link-button-green" onClick={() => handlePrepareUpdateRequirement(requirement.id)}>Edit</a>}
                             {cartHasRequirement(requirement.id) && <a className="link-button-red" onClick={() => handleRemoveRequirement(requirement.id)}>Remove</a>}
@@ -400,7 +412,7 @@ export default function ReportForm({ mode }) {
                             <div className="table-cell-fixed"><p className="error">{fieldError.message}</p></div>
                         </div>}
                         <div className="table-row">
-                            <div className="table-heading-fixed"><label htmlFor="trigger">System Response *</label></div>
+                            <div className="table-heading-fixed"><label htmlFor="systemResponse">System Response *</label></div>
                             <div className="table-cell-fixed"><input type="text" id="systemResponse" name="systemResponse" placeholder="What the system is expected to do when the stimulus occurs." required defaultValue={formValues.systemResponse} ref={systemResponse}></input> </div>
                         </div>
 

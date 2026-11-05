@@ -4,6 +4,7 @@ export default function Modal({ isOpen, onClose, children }) {
 
     return (
         <div
+            data-testid="modal-backdrop"
             onClick={onClose}
             style={{
                 position: "fixed", top: 0, left: 0, width: "100%", height: "100%",
