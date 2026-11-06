@@ -42,11 +42,11 @@ export default function ReportsPage() {
 
                 { currentView == 'list' && <ul className="list-view">
                     { reports && reports.map( (report) => 
-                        <li className="list-item">
-                            <img src={ReportImage} alt="icon" class="item-icon" />
-                            <div class="item-content">
-                                <h3 class="item-title">{report.name}</h3>
-                                <p class="item-description">{report.description}, created {report.createdAt}</p>
+                        <li key={report.id} className="list-item">
+                            <img src={ReportImage} alt="icon" className="item-icon" />
+                            <div className="item-content">
+                                <h3 className="item-title">{report.name}</h3>
+                                <p className="item-description">{report.description}, created {report.createdAt}</p>
                                 <Link target="_new" className="link-button link-button-small" to={`/reports/display/${report.id}`}>View</Link>
                                 <Link className="link-button link-button-small" to={`/reports/edit/${report.id}`}>Update</Link>
                             </div>
