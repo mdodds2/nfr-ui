@@ -378,7 +378,7 @@ function Measurement( {measurement} ) {
         { measurement.systemResponse     && <TwoColumnRow title="System Response"    value={measurement.systemResponse} /> }
         { measurement.owner              && <TwoColumnRow title="Owner"              value={measurement.owner} /> }
         { measurement.acceptanceCriteria && <TwoColumnRow title="Acceptance Criteria" value={measurement.acceptanceCriteria} /> }
-        { measurement.notes              && <TwoColumnRow title="notes"              value={measurement.notes} /> }
+        { measurement.notes              && <TwoColumnRow title="Notes"              value={measurement.notes} /> }
     </>;
 }
 
