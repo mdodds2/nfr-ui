@@ -315,7 +315,7 @@ function Requirement({ report, requirements }) {
     return <>
 
         {requirements.map((requirement) =>
-            <article>
+            <article key={requirement.id}>
                 <table key={requirement.id} className="reqTable">
                     <colgroup>
                         <col className="width-20" />
@@ -358,7 +358,7 @@ function Measurements( {measurements, requirement} ) {
             </colgroup>            
             <tbody>
                 { result.map( measurement => 
-                    <Measurement measurement={measurement} />
+                    <Measurement key={measurement.id} measurement={measurement} />
                 )}
             </tbody>
         </table>
