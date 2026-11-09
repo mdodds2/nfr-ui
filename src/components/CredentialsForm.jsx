@@ -9,7 +9,7 @@ export default function CredentialsForm( {mode = 'signup'} ) {
       <div className="login-container" id="loginPage">
         <div className="login-card">
           <div className="login-header">
-            <h1>NFR Report Builder</h1>
+            <h1>Software Quality Attributes Report Builder</h1>
 
           </div>
 
@@ -29,7 +29,7 @@ export default function CredentialsForm( {mode = 'signup'} ) {
               </div>}
 
               { mode !== 'reset' && <div className="form-group">
-                <label htmlFor="email">Email</label>
+                <label htmlFor="email">Email *</label>
                   <input 
                     type="email" 
                     id="email" 
@@ -40,7 +40,7 @@ export default function CredentialsForm( {mode = 'signup'} ) {
               </div> }
 
               { (mode === 'signup' || mode === 'login') && <div className="form-group">
-                <label htmlFor="password">{mode === 'forgot' && "Current "}Password</label>
+                <label htmlFor="password">{mode === 'forgot' && "Current "}Password *</label>
                 <input 
                   type="password" 
                   id="password" 
@@ -53,7 +53,7 @@ export default function CredentialsForm( {mode = 'signup'} ) {
 
 
               { (mode === 'signup' || mode === 'reset') && <div className="form-group">
-                <label htmlFor="newPassword">New Password</label>
+                <label htmlFor="newPassword">New Password *</label>
                 <input 
                   type="password" 
                   id="newPassword" 
@@ -65,7 +65,7 @@ export default function CredentialsForm( {mode = 'signup'} ) {
               </div> }
 
               { (mode === 'signup' || mode === 'reset') && <div className="form-group">
-                <label htmlFor="confirmPassword">Confirm New Password</label>
+                <label htmlFor="confirmPassword">Confirm New Password *</label>
                 <input 
                   type="password" 
                   id="confirmPassword" 
