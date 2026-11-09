@@ -85,6 +85,7 @@ describe('Requirements', () => {
     expect(screen.getByRole('link', { name: 'New' })).toHaveAttribute('href', '/requirements/new');
     expect(screen.getByText('High')).toBeInTheDocument();
     expect(screen.getByText('Approved')).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Delete' })).toHaveAttribute('href', '/requirements/delete/111');
   });
 
   it('clear characteristic', async () => {
