@@ -52,7 +52,7 @@ export default function RequirementForm( { mode, requirement } ) {
         <Form method="POST" >
 
             {mode === 'new' && <div className="form-group">
-                <label htmlFor="category">Category *</label>
+                <label htmlFor="category">Characteristic *</label>
                 <select id="category" name="category" onChange={handleCategory} required defaultValue={categoryId == null ? '' : categoryId}>
                     <option key="select" value="">Select</option>
                     {categories && categories.map((category) =>
@@ -60,7 +60,7 @@ export default function RequirementForm( { mode, requirement } ) {
                     )}
                 </select>
 
-                <label htmlFor="subCategory">Type *</label>
+                <label htmlFor="subCategory">Sub-Characteristic *</label>
                 <select id="subCategory" name="subCategory" onChange={handleSubCategory} required defaultValue={subCategoryId == null ? '' : subCategoryId}>
                     <option key="select" value="">Select</option>
                     {categoryId && subCategories && subCategories.map((subCategory) =>

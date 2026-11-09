@@ -23,11 +23,12 @@ export async function action({ request }) {
     const response = await addNewRequirement(reqtData);
 
     if (response.status === 400 || response.status === 409) {
-        return await response.json();
+      const body = await response.json();
+      return { status: response.status, error: body.message };
     }
 
     if (!response.ok) {
-        throw new Error("Error when adding requirement");
+      return {"error": "System error when updating requirement"};
     }
 
     return redirect('/requirements/displayAll');
