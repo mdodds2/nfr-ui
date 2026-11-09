@@ -20,7 +20,9 @@ export default function ChangePassword() {
         });
 
         if (!res.ok) {
-            setError((await res.json()).error); return;
+            const body = await res.json();
+            setError(body.error ?? body.message ?? 'Unable to change password');
+            return;
         }
         setOpen(false);
         setError("");
