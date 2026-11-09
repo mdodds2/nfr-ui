@@ -46,18 +46,18 @@ export default function Requirements() {
 
     return <article>
         <br />
-        <h1>Display Requirements</h1>
+        <h1>Display Quality Attributes</h1>
         <div className="form-group">
 
             <select id="category" name="category" onChange={handleCategory} required value={displayContext.categoryId == null ? '' : displayContext.categoryId}>
-                <option key="select" value="">Select Category</option>
+                <option key="select" value="">Select Characteristic</option>
                 {categories && categories.map((category) =>
                     <option key={category.id} value={category.id}>{category.name}</option>
                 )}
             </select>
             &nbsp;
             <select id="subCategory" name="subCategory" onChange={handleSubCategory} required value={displayContext.subCategoryId == null ? '' : displayContext.subCategoryId}>
-                <option key="select" value="">Select Type</option>
+                <option key="select" value="">Select Sub-Characteristic</option>
                 {displayContext.categoryId && displayContext.subCategories && displayContext.subCategories.map((subCategory) =>
                     <option key={subCategory.id} value={subCategory.id}>{subCategory.name}</option>
                 )}
@@ -81,7 +81,7 @@ export default function Requirements() {
                     <tr key={requirement.id}>
                         <td>
                             <Link className="link-button link-button-small" to={`/requirements/edit/${requirement.id}`}>Edit</Link>
-                            <Link className="link-button link-button-small" to={`/requirements/edit/${requirement.id}`}>Delete</Link>
+                            <Link className="link-button link-button-small" to={`/requirements/delete/${requirement.id}`}>Delete</Link>
                         </td>
                         <td><Link to={`/requirements/display/${requirement.id}`}>{requirement.identifier}</Link></td>
                         <td>{requirement.title}</td>
@@ -94,7 +94,7 @@ export default function Requirements() {
         </table>
         }
 
-        { (!requirements || requirements.length == 0) && <p className="message">No requirements exist for the selected Category & Type </p> }
+        { (!requirements || requirements.length == 0) && <p className="message">No Quality Attributes exist for the selected Characteristic and Sub-Characteristic</p> }
         
         { displayContext && displayContext.categoryId && displayContext.subCategoryId && <Link className="link-button link-button-25" to="/requirements/new">New</Link> }
 
