@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-import { useEffectEvent } from 'react';
+import { useEffect } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { getUserData, setAuthToken} from '../util/auth.js';
 
@@ -22,9 +22,8 @@ function UserInfo() {
         }
     }
 
-    useEffectEvent(() => {
+    useEffect(() => {
         document.addEventListener("mousedown", handleClickOutside);
-
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, []);
 
@@ -55,7 +54,7 @@ function UserInfo() {
                     <div className="menu-items-div">
 
                         <div className="menu-item">
-                            <a href='/profile' className='menu-item-link'>Profile</a>
+                            <a href='/main/profile' className='menu-item-link'>Profile</a>
                         </div>
 
                         { userData.role === "ADMIN" && (
