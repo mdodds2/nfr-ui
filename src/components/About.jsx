@@ -6,7 +6,7 @@ function About() {
 
     return (
         <article>
-            <h1>About NFR Report Builder</h1>
+            <h1>About Quality Attribute Report Builder</h1>
             <div className="tile-container">
                 <Document type="javadoc" title="Backend JavaDoc" location="#" />
                 <Document type="swagger" title="Backend Swagger Docs" location={import.meta.env.VITE_SWAGGER_URL} />
