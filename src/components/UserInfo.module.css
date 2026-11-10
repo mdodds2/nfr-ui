@@ -1,4 +1,4 @@
-[data-letters]:before {
+data-letters]:before {
     content:attr(data-letters);
     display:inline-block;
     font-size:1em;
