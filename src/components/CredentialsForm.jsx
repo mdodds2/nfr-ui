@@ -40,7 +40,7 @@ export default function CredentialsForm( {mode = 'signup'} ) {
               </div> }
 
               { (mode === 'signup' || mode === 'login') && <div className="form-group">
-                <label htmlFor="password">{mode === 'forgot' && "Current "}Password *</label>
+                <label htmlFor="password">Password *</label>
                 <input 
                   type="password" 
                   id="password" 
@@ -52,7 +52,7 @@ export default function CredentialsForm( {mode = 'signup'} ) {
               </div> }
 
 
-              { (mode === 'signup' || mode === 'reset') && <div className="form-group">
+              { mode === 'reset' && <div className="form-group">
                 <label htmlFor="newPassword">New Password *</label>
                 <input 
                   type="password" 
@@ -77,7 +77,7 @@ export default function CredentialsForm( {mode = 'signup'} ) {
               </div>}
 
               { mode === 'login' && <div className="forgot">
-                <Link to="/Forgot">Forgot password?</Link>
+                <Link to="/forgot">Forgot password?</Link>
               </div>}
             
 
