@@ -1,29 +1,22 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
-export default function AdminPage({ mode = 'default' }) {
+export default function AdminPage() {
+  const navigate = useNavigate();
 
-    const navigate = useNavigate();
+  return (
+    <main>
+      <section>
+        <article>
+          <h1>Admin</h1>
 
-    function handleNavigate(dest) {
-        navigate(dest);
-    }
-
-    return (
-        <main>
-            <section>
-
-                {mode === 'default' && <article>
-                    <h1>Admin</h1>
-
-                    <button className="tile-button" onClick={() => handleNavigate('/requirements/displayAll')}>Show All NFRs</button>
-                    <button className="tile-button" onClick={() => handleNavigate('/requirements/new')}>New NFR</button>
-
-                </article> }
-
-            </section>
-
-
-        </main>
-    );
-
+          <button className="tile-button" onClick={() => navigate('/requirements/displayAll')}>
+            Show All NFRs
+          </button>
+          <button className="tile-button" onClick={() => navigate('/requirements/new')}>
+            New NFR
+          </button>
+        </article>
+      </section>
+    </main>
+  );
 }
