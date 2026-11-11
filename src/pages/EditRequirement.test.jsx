@@ -1,0 +1,23 @@
+import { describe, it, expect, vi } from 'vitest';
+import { render, screen } from '@testing-library/react';
+import { useLoaderData } from 'react-router-dom';
+
+import EditRequirement from './EditRequirement.jsx';
+
+vi.mock('react-router-dom', () => ({ useLoaderData: vi.fn() }));
+vi.mock('../components/MainNavigation.jsx', () => ({ default: () => <nav>MainNavigation</nav> }));
+vi.mock('../components/RequirementForm.jsx', () => ({
+  default: ({ requirement, mode }) => (
+    <div>
+      {requirement.id} {mode}
+    </div>
+  ),
+}));
+
+describe('EditRequirement', () => {
+  it('passes the loaded requirement to the form in edit mode', () => {
+    useLoaderData.mockReturnValue({ id: 111 });
+    render(<EditRequirement />);
+    expect(screen.getByText('111 edit')).toBeInTheDocument();
+  });
+});

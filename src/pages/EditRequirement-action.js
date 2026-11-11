@@ -23,11 +23,12 @@ export async function action({ request, params }) {
     const response = await updateRequirement(params.id, reqtData);
 
     if (response.status === 400 || response.status === 409) {
-        return await response.json();
+        const body = await response.json();
+        return { status: response.status, error: body.message };
     }
 
     if (!response.ok) {
-        return {"error": "System error when updating requirement"};
+      return {"error": "System error when updating requirement"};
     }
 
     return redirect('/main/admin');

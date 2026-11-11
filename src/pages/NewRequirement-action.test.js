@@ -35,16 +35,16 @@ describe('New Requirement action', () => {
   });
 
   it.each([400, 409])('New Requirement api returns an error on %i', async (status) => {
-    addNewRequirement.mockResolvedValueOnce(res(status, {status, message:  'An error has occurred'}));
+    addNewRequirement.mockResolvedValueOnce(res(status, { status, message: 'An error has occurred' }));
     const result = await action({ request: createRequirementRequest(1, 'TST-TST-' + status, 'Title', 'description', 'priority', 'status', 'targetValue', 'thresholdValue', 'unit', 'measurementMethod', 'rationale', 'source', 'riskIfViolated') });
-    expect(result.status).toBe(status);
-    expect(result.message).toBe('An error has occurred');
-    expect(addNewRequirement).toHaveBeenCalledTimes(1);
+    expect(result).toEqual({ status, error: 'An error has occurred' });
+    expect(addNewRequirement).toHaveBeenCalledTimes(1)
   });
 
   it('500 error', async () => {
-    addNewRequirement.mockResolvedValueOnce(res(500, {status: 500, message:  'An error has occurred'}));
-    await expect(action({ request: createRequirementRequest('1', 'TST-TST-1', 'Title', 'description', 'priority', 'status', 'targetValue', 'thresholdValue', 'unit', 'measurementMethod', 'rationale', 'source', 'riskIfViolated') })).rejects.toThrow('Error when adding requirement');
+    addNewRequirement.mockResolvedValueOnce(res(status, { status: 500, message: 'Internal server error' }));
+    const result = await action({ request: createRequirementRequest(1, 'TST-TST-1', 'Title', 'description', 'priority', 'status', 'targetValue', 'thresholdValue', 'unit', 'measurementMethod', 'rationale', 'source', 'riskIfViolated') });
+    expect(result).toEqual({ error: 'System error when updating requirement' });
     expect(addNewRequirement).toHaveBeenCalledTimes(1);
   });
 

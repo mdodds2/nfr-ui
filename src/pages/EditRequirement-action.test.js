@@ -35,17 +35,16 @@ describe('Edit Requirement action', () => {
   });
 
   it.each([400, 409])('Edit Requirement api returns an error on %i', async (status) => {
-    updateRequirement.mockResolvedValueOnce(res(status, {status, message:  'An error has occurred'}));
+    updateRequirement.mockResolvedValueOnce(res(status, { status, message: 'An error has occurred' }));
     const result = await action({ request: updateRequirementRequest('TST-TST-' + status, 'Title', 'description', 'priority', 'status', 'targetValue', 'thresholdValue', 'unit', 'measurementMethod', 'rationale', 'source', 'riskIfViolated'), params: {'id': 1} });
-    expect(result.status).toBe(status);
-    expect(result.message).toBe('An error has occurred');
+    expect(result).toEqual({ status, error: 'An error has occurred' });
     expect(updateRequirement).toHaveBeenCalledTimes(1);
   });
 
   it('500 error', async () => {
-    updateRequirement.mockResolvedValueOnce(res(500, {"error": "System error when updating requirement"}));
+    updateRequirement.mockResolvedValueOnce(res(500, {status: 500, message: "System error when updating requirement"}));
     const result = await action({ request: updateRequirementRequest('TST-TST-1', 'Title', 'description', 'priority', 'status', 'targetValue', 'thresholdValue', 'unit', 'measurementMethod', 'rationale', 'source', 'riskIfViolated'), params: {'id': 1} });
-    expect(result.error).toBe('System error when updating requirement');
+    expect(result).toEqual({ error: 'System error when updating requirement' })
     expect(updateRequirement).toHaveBeenCalledTimes(1);
   });
 

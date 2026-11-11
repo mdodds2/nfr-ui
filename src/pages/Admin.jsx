@@ -1,31 +1,22 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
-import MainNavigation from "../components/MainNavigation";
+export default function AdminPage() {
+  const navigate = useNavigate();
 
-export default function AdminPage({ mode = 'default' }) {
+  return (
+    <main>
+      <section>
+        <article>
+          <h1>Admin</h1>
 
-    const navigate = useNavigate();
-
-    function handleNavigate(dest) {
-        navigate(dest);
-    }
-
-    return (
-        <main>
-            <section>
-
-                {mode === 'default' && <article>
-                    <h1>Admin</h1>
-
-                    <button className="tile-button" onClick={() => handleNavigate('/requirements/displayAll')}>Show All NFRs</button>
-                    <button className="tile-button" onClick={() => handleNavigate('/requirements/new')}>New NFR</button>
-
-                </article> }
-
-            </section>
-
-
-        </main>
-    );
-
+          <button className="tile-button" onClick={() => navigate('/requirements/displayAll')}>
+            Show All NFRs
+          </button>
+          <button className="tile-button" onClick={() => navigate('/requirements/new')}>
+            New NFR
+          </button>
+        </article>
+      </section>
+    </main>
+  );
 }
