@@ -1,6 +1,6 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import { useActionData, useLoaderData } from 'react-router-dom';
+import { useLoaderData } from 'react-router-dom';
 
 import EditRequirement from './EditRequirement.jsx';
 
