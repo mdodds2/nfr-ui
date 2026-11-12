@@ -1,7 +1,7 @@
 import { redirect } from 'react-router-dom';
 import { deleteRequirement } from "../util/http.js";
 
-export async function action({ request, params }) {
+export async function action({ params }) {
     const response = await deleteRequirement(params.id);
 
     if (response.status === 400 || response.status === 409) {
