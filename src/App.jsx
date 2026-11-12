@@ -1,5 +1,4 @@
 /* eslint-disable react-hooks/refs -- loaders/actions read ref.current at navigation time, not during render */
-
 import { useContext, useMemo, useRef } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
@@ -29,10 +28,14 @@ import ShowRequirement from './pages/ShowRequirement.jsx';
 
 import NewRequirement from './pages/NewRequirement.jsx';
 import { action as addRequirementAction } from './pages/NewRequirement-action.js';
+import { loader as addRequirementLoader } from './pages/NewRequirement-loader.js';
 
 import { action as updateRequirementAction } from './pages/EditRequirement-action.js';
 import { loader as getRequirementLoader } from './pages/EditRequirement-loader.js';
 import EditRequirement from './pages/EditRequirement.jsx';
+
+import DeleteRequirement from './pages/DeleteRequirement.jsx';
+import { action as deleteRequirementAction } from './pages/DeleteRequirement-action.js';
 
 import ReportsPage from './pages/Reports.jsx';
 import { loader as getReportsForUser } from './pages/Reports-loader.js';
@@ -94,10 +97,11 @@ function App() {
         HydrateFallback: () => null,
         errorElement: <ErrorPage />,
         children: [
-          { path: '/requirements/new', element: <NewRequirement />, action: addRequirementAction, loader: getCategories, HydrateFallback: () => null, },
+          { path: '/requirements/new', element: <NewRequirement />, action: addRequirementAction, loader: addRequirementLoader(displayRef), HydrateFallback: () => null, },
           { path: '/requirements/edit/:id', element: <EditRequirement />, action: updateRequirementAction, loader: getRequirementLoader, HydrateFallback: () => null, },
           { path: '/requirements/displayAll', element: <ShowRequirements />, loader: getCategories, HydrateFallback: () => null, },
           { path: '/requirements/display/:id', element: <ShowRequirement />, loader: getRequirementLoader, HydrateFallback: () => null, },
+          { path: '/requirements/delete/:id', element: <DeleteRequirement />, action: deleteRequirementAction, loader: getRequirementLoader, HydrateFallback: () => null, },
         ]
       },
 
