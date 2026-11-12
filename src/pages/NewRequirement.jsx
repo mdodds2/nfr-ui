@@ -1,12 +1,15 @@
-import MainNavigation from "../components/MainNavigation";
+import { useLoaderData } from "react-router-dom";
+
 import RequirementForm from "../components/RequirementForm";
 
 export default function NewRequirement() {
+
+    const loaderData = useLoaderData();
+
     return (
         <main className="main-content">
-            <MainNavigation />
             <section className="preview-area">
-                <RequirementForm mode="new" />
+                <RequirementForm mode="new" categories={loaderData.categories} initialIdentifier={loaderData.nextIdentifier} />
             </section>
         </main>
     );
