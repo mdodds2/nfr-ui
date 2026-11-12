@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { apiFetch, getCategories, getCategory, getSubCategories, getRequirementsForSubCategory, getRequirement, getNextIdentifier, getReportsForUser, getReport, getUser, addNewRequirement, updateRequirement, addNewReport, updateReport, deleteReport, forgotPassword, resetPassword } from './http';
+import { apiFetch, getCategories, getCategory, getSubCategories, getRequirementsForSubCategory, getRequirement, getNextIdentifier, getReportsForUser, getReport, getUser, addNewRequirement, updateRequirement, addNewReport, updateReport, deleteReport, forgotPassword, resetPassword, deleteRequirement } from './http';
 import { getAuthToken, logout } from './auth';
 
 // mock the whole auth module (like @Mock)
@@ -201,6 +201,18 @@ describe('write helpers', () => {
     expect(url).toContain('/requirements/100');
     expect(JSON.parse(options.body)).toEqual(requirement)
     expect(options.method).toBe('PATCH');
+  });
+
+  it('deletes a requirement', async () => {
+    fetch.mockResolvedValueOnce(res(204));
+
+    const result = await deleteRequirement(100);
+    expect(result.status).toBe(204);
+    expect(fetch).toHaveBeenCalledTimes(1);
+
+    const [url, options] = fetch.mock.calls[0];
+    expect(url).toContain('/requirements/100');
+    expect(options.method).toBe('DELETE');
   });
 
   it('adds a new report', async () => {

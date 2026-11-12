@@ -73,6 +73,10 @@ export async function updateRequirement(id, requirement) {
     return apiFetch('/requirements/' + id, { method: 'PATCH', body: JSON.stringify(requirement) });
 }
 
+export async function deleteRequirement(id) {
+    return apiFetch('/requirements/' + id, { method: 'DELETE' });
+}
+
 export async function addNewReport(report) {
     return apiFetch('/reports', { method: 'POST', body: JSON.stringify(report) });
 }
