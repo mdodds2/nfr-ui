@@ -20,6 +20,7 @@ export default function RequirementForm({
     setSubCategories,
   } = useContext(DisplayContext);
   const [nextIdentifier, setNextIdentifier] = useState(initialIdentifier);
+  const [showConfirm, setShowConfirm] = useState(false);
 
   const actionData = useActionData();
 
@@ -49,24 +50,21 @@ export default function RequirementForm({
     }
     setSubCategoryId(id);
     const next = await getNextIdentifier(categoryId, id);
-    console.log(next);
     setNextIdentifier(next.identifier);
   }
 
-  function handleSubmit(event) {
-    if (mode === 'delete' && !confirm('Are you 100% sure?')) {
-      event.preventDefault();
-    }
+  function handleDelete() {
+     setShowConfirm(true)
   }
 
   return (
     <article>
       <br />
-      {mode === 'new' && <h2>Create a New Requirement</h2>}
-      {mode === 'edit' && <h2>Edit an Existing Requirement</h2>}
-      {mode === 'delete' && <h2>Delete an Existing Requirement</h2>}
+      {mode === 'new' && <h2>Create a New Quality Attribute</h2>}
+      {mode === 'edit' && <h2>Edit an Existing Quality Attribute</h2>}
+      {mode === 'delete' && <h2>Delete an Existing Quality Attribute</h2>}
 
-      <Form method="POST" onSubmit={handleSubmit}>
+      <Form method="POST">
         {mode === 'new' && (
           <div className="form-group">
             <label htmlFor="category">Characteristic *</label>
@@ -212,7 +210,11 @@ export default function RequirementForm({
         {actionData && actionData.error && <p className="error">{actionData.error}</p>}
 
         {['edit', 'new'].includes(mode) && <button className="btn btn-25">Save</button>}
-        {mode === 'delete' && <button className="btn btn-25">Delete</button>}
+        {mode === 'delete' && !showConfirm && <button type="button" className="btn btn-25" onClick={handleDelete}>Delete</button>}
+        {mode === 'delete' && showConfirm && <div>
+            <p className="error">You are about to delete this Quality Attribute.  Are you sure?</p>
+            <button className="btn btn-25 btn-red">Confirm Delete</button>
+        </div> }
         {mode !== 'readonly' && (
           <Link className="link-button link-button-25" to="/main/admin">
             Cancel

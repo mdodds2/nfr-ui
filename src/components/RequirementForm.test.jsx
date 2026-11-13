@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import RequirementForm from './RequirementForm.jsx';
@@ -7,8 +7,12 @@ import DisplayContextProvider from '../store/display-context';
 import { useActionData } from 'react-router-dom';
 import { getSubCategories, getNextIdentifier } from '../util/http.js';
 
+const { submitSpy } = vi.hoisted(() => ({ submitSpy: vi.fn() }));
+
 vi.mock('react-router-dom', () => ({
-  Form: ({ children, onSubmit }) => <form onSubmit={onSubmit}>{children}</form>,
+  Form: ({ children }) => (
+    <form onSubmit={(e) => { e.preventDefault(); submitSpy(); }}>{children}</form>
+  ),
   Link: ({ children, to }) => <a href={to}>{children}</a>,
   useActionData: vi.fn(),
 }));
@@ -52,16 +56,11 @@ function renderRequirementForm({
 describe('RequirementForm', () => {
   beforeEach(() => {
     vi.resetAllMocks();
-    vi.spyOn(window, 'confirm').mockReturnValue(true);
-  });
-
-  afterEach(() => {
-    vi.restoreAllMocks();
   });
 
   it('renders the new-requirement heading and empty fields', () => {
     renderRequirementForm({ mode: 'new' });
-    expect(screen.getByRole('heading', { name: /create a new requirement/i })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /create a new quality attribute/i })).toBeInTheDocument();
     expect(screen.getByLabelText('Characteristic *')).toHaveValue('');
     expect(screen.getByLabelText('Sub-Characteristic *')).toHaveValue('');
     expect(screen.getByLabelText(/priority/i)).toHaveValue('');
@@ -117,7 +116,7 @@ describe('RequirementForm', () => {
       },
     });
     expect(
-      screen.getByRole('heading', { name: /edit an existing requirement/i })
+      screen.getByRole('heading', { name: /edit an existing quality attribute/i })
     ).toBeInTheDocument();
     expect(screen.queryByRole('combobox', { name: 'Characteristic *' })).not.toBeInTheDocument();
     expect(
@@ -163,7 +162,7 @@ describe('RequirementForm', () => {
       },
     });
     expect(
-      screen.getByRole('heading', { name: /delete an existing requirement/i })
+      screen.getByRole('heading', { name: /delete an existing quality attribute/i })
     ).toBeInTheDocument();
     expect(screen.queryByRole('combobox', { name: 'Characteristic *' })).not.toBeInTheDocument();
     expect(
@@ -176,34 +175,35 @@ describe('RequirementForm', () => {
 
   it('asks for confirmation before deleting', async () => {
     const user = userEvent.setup();
-    const confirmSpy = vi.spyOn(window, 'confirm').mockReturnValue(false);
     renderRequirementForm({
       mode: 'delete',
       requirement: { identifier: 'TST-TST-01', title: 'Response time' },
     });
     await user.click(screen.getByRole('button', { name: 'Delete' }));
-    expect(confirmSpy).toHaveBeenCalledTimes(1);
+    expect(screen.getByRole('button', {name: "Confirm Delete"})).toBeInTheDocument();
+    expect(screen.getByText(/are you sure/i)).toBeInTheDocument();
   });
 
   it('submits the delete when confirmed', async () => {
     const user = userEvent.setup();
-    const confirmSpy = vi.spyOn(window, 'confirm').mockReturnValue(true);
     renderRequirementForm({
       mode: 'delete',
       requirement: { identifier: 'TST-TST-01', title: 'Response time' },
     });
     await user.click(screen.getByRole('button', { name: 'Delete' }));
-    expect(confirmSpy).toHaveBeenCalledTimes(1);
+    expect(submitSpy).not.toHaveBeenCalled();
+    await user.click(screen.getByRole('button', { name: 'Confirm Delete' }));
+    expect(submitSpy).toHaveBeenCalledTimes(1);
   });
 
-  it('does not confirm when saving an edit', async () => {
+  it('does not delete after cancel', async () => {
     const user = userEvent.setup();
-    const confirmSpy = vi.spyOn(window, 'confirm');
     renderRequirementForm({
-      mode: 'edit',
+      mode: 'delete',
       requirement: { identifier: 'TST-TST-01', title: 'Response time' },
     });
-    await user.click(screen.getByRole('button', { name: 'Save' }));
-    expect(confirmSpy).not.toHaveBeenCalled();
+    await user.click(screen.getByRole('button', { name: 'Delete' }));
+    await user.click(screen.getByRole('link', { name: 'Cancel' }));
+    expect(submitSpy).not.toHaveBeenCalled();
   });
 });

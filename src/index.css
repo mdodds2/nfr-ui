@@ -120,6 +120,10 @@ input:focus {
   width: 25%
 }
 
+.btn-red {
+  background-color: #FF0000;
+}
+
 .btn:active {
   transform: translateY(0);
 }
