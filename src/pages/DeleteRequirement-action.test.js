@@ -16,14 +16,14 @@ describe('Delete Requirement action', () => {
   });
 
   it.each([400, 409])('Delete Requirement api returns an error on %i', async (status) => {
-    deleteRequirement.mockResolvedValueOnce(res(status, { status, message: 'An error has occurred' }));
+    deleteRequirement.mockResolvedValueOnce(res(status, { error: 'An error has occurred' }));
     const result = await action({ params: {'id': '1'} });
     expect(result).toEqual({ status, error: 'An error has occurred' });
     expect(deleteRequirement).toHaveBeenCalledTimes(1);
   });
 
   it('500 error', async () => {
-    deleteRequirement.mockResolvedValueOnce(res(500, {status: 500, message: "System error when deleting requirement"}));
+    deleteRequirement.mockResolvedValueOnce(res(500, { error: "System error when deleting requirement"}));
     const result = await action({ params: {'id': '1'} });
     expect(result).toEqual({ error: 'System error when deleting requirement' })
     expect(deleteRequirement).toHaveBeenCalledTimes(1);

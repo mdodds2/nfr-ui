@@ -6,7 +6,7 @@ export async function action({ params }) {
 
     if (response.status === 400 || response.status === 409) {
         const body = await response.json();
-        return { status: response.status, error: body.message };
+        return { status: response.status, error: body.error };
     }
 
     if (!response.ok) {
