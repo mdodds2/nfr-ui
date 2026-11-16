@@ -11,7 +11,7 @@ vi.mock('../components/ChangePassword.jsx', () => ({ default: () => <div>ChangeP
 describe('Profile', () => {
   it('renders user profile page', () => {
     const orgs = useLoaderData.mockReturnValue([{ id: 111, name: 'TEST ORG', slug: 'test-org' }]);
-    render(<Profile />);
+    render(<Profile orgs={orgs}/>);
     expect(screen.getByText('UserProfile')).toBeInTheDocument();
     expect(screen.getByText('ChangePassword')).toBeInTheDocument();
   });
