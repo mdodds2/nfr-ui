@@ -7,16 +7,11 @@ import Modal from "./Modal.jsx";
 export default function NavBar() {
 
     const userData = getUserData();
-    const [showProfile, setShowProfile] = useState();
+    const [showProfile, setShowProfile] = useState(false);
 
     function getInitials(userName) {
         if (!userName) return "";
-        var initials = "";
-        var parts = userName.split(" ");
-        parts.map((part) => {
-            initials += part.charAt(0);
-        });
-        return initials;
+        return userName.split(" ").map(p => p.charAt(0)).join("");
     }
 
     return <nav className="navbar">

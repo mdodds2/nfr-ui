@@ -63,7 +63,7 @@ export const getNextIdentifier = (catId, subId) => getJson('/requirements/nextId
 export const getReportsForUser = () => getJson('/reports?sort=createdAt');
 export const getReport = (id) => getJson('/reports/' + id);
 export const getUser = () => getJson('/users/me');
-
+export const getOrganizationsForUser = () => getJson('/organizations?sort=name');
 
 export async function addNewRequirement(requirement) {
     return apiFetch('/requirements', { method: 'POST', body: JSON.stringify(requirement) });
@@ -96,3 +96,5 @@ export async function forgotPassword(request) {
 export async function resetPassword(request) {
     return apiFetch('/auth/reset-password', { method: 'POST', body: JSON.stringify(request) });
 }
+
+

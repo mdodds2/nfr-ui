@@ -8,13 +8,17 @@ export default function AdminPage() {
       <section>
         <article>
           <h1>Admin</h1>
-
+          <div className="tile-container">
+          <button className="tile-button" onClick={() => navigate('/organizations')}>
+            Organization Admin
+          </button>
+          <button className="tile-button" onClick={() => navigate('/users')}>
+            User Admin
+          </button>
           <button className="tile-button" onClick={() => navigate('/requirements/displayAll')}>
-            Show All NFRs
+            Quality Attribute Admin
           </button>
-          <button className="tile-button" onClick={() => navigate('/requirements/new')}>
-            New NFR
-          </button>
+          </div>
         </article>
       </section>
     </main>

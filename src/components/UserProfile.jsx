@@ -1,13 +1,14 @@
+import Organizations from './Organizations.jsx';
 import { getUserData } from "../util/auth";
 
-export default function UserProfile() {
+export default function UserProfile( { orgs } ) {
 
     const userData = getUserData();
 
     const expiry = new Date(userData.expiry * 1000).toLocaleString();
 
     return (
-
+        <>
         <article>
             <h1>User Profile</h1>
             <br/>
@@ -46,6 +47,7 @@ export default function UserProfile() {
                 </tbody>
             </table>
         </article>
-
+        { orgs && <Organizations orgs={orgs} /> }
+        </>
     );
 }

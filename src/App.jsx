@@ -59,6 +59,9 @@ import { checkAuthLoader } from './util/auth.js';
 import CartContext from "./store/cart-context.jsx";
 import { DisplayContext } from "./store/display-context-object";
 
+import OrgAdmin from "./pages/OrgAdmin.jsx";
+import { loader as getOrganizations } from './pages/OrgAdmin-loader.js';
+
 function App() {
 
   const cartContext = useContext(CartContext);
@@ -85,7 +88,7 @@ function App() {
         children: [
           { index: true, element: <MainPage /> },
           { path: 'about', element: <AboutPage /> },
-          { path: 'profile', element: <ProfilePage /> },
+          { path: 'profile', element: <ProfilePage  />, loader: getOrganizations },
           { path: 'admin', element: <AdminPage /> },
         ]
       },
@@ -118,6 +121,18 @@ function App() {
           { path: '/reports/delete', element: <DeleteReport />, },
         ]
       },
+
+      {
+        path: '/organizations',
+        element: <RootLayout />,
+        loader: checkAuthLoader,
+        HydrateFallback: () => null,
+        errorElement: <ErrorPage />,
+        children: [
+          { index: true, element: <OrgAdmin />, loader: getOrganizations },
+        ]
+      },
+
       { path: '/reports/display/:id', element: <ShowReport />, loader: getReportLoader, HydrateFallback: () => null, },
 
       { path: '/logout', element: <LogoutPage />, loader: logoutLoader(displayRef), HydrateFallback: () => null, },
