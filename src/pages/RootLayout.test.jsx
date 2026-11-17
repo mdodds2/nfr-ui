@@ -3,7 +3,10 @@ import { render, screen } from '@testing-library/react';
 
 import RootLayout from './RootLayout.jsx';
 
-vi.mock('react-router-dom', () => ({ Outlet: () => <div>Outlet</div> }));
+vi.mock('react-router-dom', async (importOriginal) => ({...(await importOriginal()),
+  Outlet: () => <div>Outlet</div>,
+  useRouteLoaderData: () => ({ orgs: [{ id: '111', name: 'Org 1' }] }),
+}));
 
 vi.mock('../ui/NavBar.jsx', () => ({
   default: () => <div>NavBar ui component</div>,

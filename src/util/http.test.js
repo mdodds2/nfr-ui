@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { apiFetch, getCategories, getCategory, getSubCategories, getRequirementsForSubCategory, getRequirement, getNextIdentifier, getReportsForUser, getReport, getUser, addNewRequirement, updateRequirement, addNewReport, updateReport, deleteReport, forgotPassword, resetPassword, deleteRequirement } from './http';
+
+import { apiFetch, getCategories, getCategory, getSubCategories, getRequirementsForSubCategory, getRequirement, getNextIdentifier, getReportsForUser, getReport, getUser, getCurrentUser, addNewRequirement, updateRequirement, addNewReport, updateReport, deleteReport, forgotPassword, resetPassword, deleteRequirement } from './http';
 import { getAuthToken, logout } from './auth';
 
 // mock the whole auth module (like @Mock)
@@ -139,13 +140,22 @@ describe('GET helpers', () => {
     expect(url).toContain('/reports/1');
   });
 
+  it('gets a user', async () => {
+    const user = {id: 1, name: 'Test User'};
+    fetch.mockResolvedValueOnce(res(200, user));
+    expect(await getUser(1)).toEqual(user);
+    const [url] = fetch.mock.calls[0];
+    expect(url).toContain('/users/1');
+  });
+
   it('gets current user', async () => {
     const user = {id: 1, name: 'Test User'};
     fetch.mockResolvedValueOnce(res(200, user));
-    expect(await getUser()).toEqual(user);
+    expect(await getCurrentUser()).toEqual(user);
     const [url] = fetch.mock.calls[0];
     expect(url).toContain('/users/me');
   });
+
 });
 
 describe('write helpers', () => {

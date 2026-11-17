@@ -62,7 +62,8 @@ export const getRequirement = (id) => getJson('/requirements/' + id);
 export const getNextIdentifier = (catId, subId) => getJson('/requirements/nextIdentifier/' + catId + '/' + subId);
 export const getReportsForUser = () => getJson('/reports?sort=createdAt');
 export const getReport = (id) => getJson('/reports/' + id);
-export const getUser = () => getJson('/users/me');
+export const getUser = (id) => getJson('/users/' + id);
+export const getCurrentUser = () => getJson('/users/me');
 export const getOrganizationsForUser = () => getJson('/organizations?sort=name');
 
 export async function addNewRequirement(requirement) {

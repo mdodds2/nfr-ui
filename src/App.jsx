@@ -54,13 +54,13 @@ import EditReport from './pages/EditReport.jsx';
 import DeleteReport from './pages/DeleteReport.jsx';
 
 import { getCategories } from './util/http.js';
-import { checkAuthLoader } from './util/auth.js';
+import { checkAuthLoader, authUserLoader } from './util/auth.js';
 
 import CartContext from "./store/cart-context.jsx";
 import { DisplayContext } from "./store/display-context-object";
 
 import OrgAdmin from "./pages/OrgAdmin.jsx";
-import { loader as getOrganizations } from './pages/OrgAdmin-loader.js';
+import { loader as getOrganizations } from './pages/GetOrganizations-loader.js';
 
 function App() {
 
@@ -81,61 +81,59 @@ function App() {
       { path: '/reset-password', element: <ResetPassword />, action: resetPasswordAction },
 
       {
-        path: '/main',
-        element: <RootLayout />,
         loader: checkAuthLoader,
         errorElement: <ErrorPage />,
+        HydrateFallback: () => null,
         children: [
-          { index: true, element: <MainPage /> },
-          { path: 'about', element: <AboutPage /> },
-          { path: 'profile', element: <ProfilePage  />, loader: getOrganizations },
-          { path: 'admin', element: <AdminPage /> },
+            { path: '/reports/display/:id', element: <ShowReport />, loader: getReportLoader },
         ]
       },
 
       {
-        path: '/requirements',
+        id: 'auth',
         element: <RootLayout />,
-        loader: checkAuthLoader,
-        HydrateFallback: () => null,
+        loader: authUserLoader,
         errorElement: <ErrorPage />,
+        HydrateFallback: () => null,
         children: [
-          { path: '/requirements/new', element: <NewRequirement />, action: addRequirementAction, loader: addRequirementLoader(displayRef), HydrateFallback: () => null, },
-          { path: '/requirements/edit/:id', element: <EditRequirement />, action: updateRequirementAction, loader: getRequirementLoader, HydrateFallback: () => null, },
-          { path: '/requirements/displayAll', element: <ShowRequirements />, loader: getCategories, HydrateFallback: () => null, },
-          { path: '/requirements/display/:id', element: <ShowRequirement />, loader: getRequirementLoader, HydrateFallback: () => null, },
-          { path: '/requirements/delete/:id', element: <DeleteRequirement />, action: deleteRequirementAction, loader: getRequirementLoader, HydrateFallback: () => null, },
+            { path: '/main',
+                 children: [
+                   { index: true, element: <MainPage /> },
+                   { path: 'about', element: <AboutPage /> },
+                   { path: 'profile', element: <ProfilePage  />, loader: getOrganizations },
+                   { path: 'admin', element: <AdminPage /> },
+                 ]
+            },
+
+            { path: '/requirements',
+                children: [
+                   { path: '/requirements/new', element: <NewRequirement />, action: addRequirementAction, loader: addRequirementLoader(displayRef) },
+                   { path: '/requirements/edit/:id', element: <EditRequirement />, action: updateRequirementAction, loader: getRequirementLoader },
+                   { path: '/requirements/displayAll', element: <ShowRequirements />, loader: getCategories },
+                   { path: '/requirements/display/:id', element: <ShowRequirement />, loader: getRequirementLoader },
+                   { path: '/requirements/delete/:id', element: <DeleteRequirement />, action: deleteRequirementAction, loader: getRequirementLoader },
+               ]
+            },
+
+            { path: '/reports',
+                children: [
+                  { index: true, element: <ReportsPage />, loader: getReportsForUser },
+                  { path: '/reports/new', element: <NewReport />, action: addReportAction(cartRef), loader: addReportLoader },
+                  { path: '/reports/edit/:id', element: <EditReport />, action: updateReportAction(cartRef), loader: updateReportLoader(cartRef) },
+                  { path: '/reports/delete', element: <DeleteReport />, },
+                ]
+            },
+
+            { path: '/organizations',
+                children: [
+                    { index: true, element: <OrgAdmin />, loader: getOrganizations },
+                ]
+            },
         ]
       },
-
-      {
-        path: '/reports',
-        element: <RootLayout />,
-        loader: checkAuthLoader,
-        HydrateFallback: () => null,
-        errorElement: <ErrorPage />,
-        children: [
-          { path: '/reports/', element: <ReportsPage />, loader: getReportsForUser, HydrateFallback: () => null, },
-          { path: '/reports/new', element: <NewReport />, action: addReportAction(cartRef), loader: addReportLoader, HydrateFallback: () => null, },
-          { path: '/reports/edit/:id', element: <EditReport />, action: updateReportAction(cartRef), loader: updateReportLoader(cartRef), HydrateFallback: () => null, },
-          { path: '/reports/delete', element: <DeleteReport />, },
-        ]
-      },
-
-      {
-        path: '/organizations',
-        element: <RootLayout />,
-        loader: checkAuthLoader,
-        HydrateFallback: () => null,
-        errorElement: <ErrorPage />,
-        children: [
-          { index: true, element: <OrgAdmin />, loader: getOrganizations },
-        ]
-      },
-
-      { path: '/reports/display/:id', element: <ShowReport />, loader: getReportLoader, HydrateFallback: () => null, },
 
       { path: '/logout', element: <LogoutPage />, loader: logoutLoader(displayRef), HydrateFallback: () => null, },
+
     ]), []);
 
   return <RouterProvider router={router} />

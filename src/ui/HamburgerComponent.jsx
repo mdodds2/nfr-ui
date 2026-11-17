@@ -12,6 +12,8 @@ export default function HamburgerComponent() {
         return true;
     }
 
+    const userData = getUserData();
+
     return (
         <nav>
             <Hamburger
@@ -33,7 +35,7 @@ export default function HamburgerComponent() {
                 <li className="nav-item">
                     <Link to="/main/about" onClick={handleClick}>About</Link>
                 </li>
-                {getUserData().role === 'ADMIN' && <li className="nav-item">
+                {userData.role === 'ADMIN' && <li className="nav-item">
                     <Link to="/main/admin" onClick={handleClick}>Admin</Link>
                 </li>}
                 <li className="nav-item">
