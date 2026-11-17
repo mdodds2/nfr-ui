@@ -15,9 +15,17 @@ const mockUser = {
   expiry: 1700003600,
 };
 
-function renderUserProfile(user = mockUser) {
+const mockOrgs = [
+        {
+            id: 'abc',
+            name: 'Test Org',
+            slug: 'test-org',
+        }
+    ];
+
+function renderUserProfile(user = mockUser, orgs = []) {
   getUserData.mockReturnValue(user);
-  render(<UserProfile />);
+  render(<UserProfile orgs={orgs}/>);
 }
 
 describe('UserProfile', () => {
@@ -48,4 +56,12 @@ describe('UserProfile', () => {
       expect(cells[1]).toHaveTextContent(expected[i][1]);
     });
   });
+
+  it('renders Organizations page', () => {
+    renderUserProfile(mockUser, mockOrgs);
+    expect(screen.getByRole('heading', { level: 2, name: 'Your Organizations' })).toBeInTheDocument();
+    expect(screen.getByText('Test Org')).toBeInTheDocument();
+    expect(screen.getByText('test-org')).toBeInTheDocument();
+  });
+
 });
