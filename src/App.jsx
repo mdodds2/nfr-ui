@@ -2,56 +2,57 @@
 import { useContext, useMemo, useRef } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
-import LoginPage from './pages/Login.jsx';
-import { action as loginAction } from './pages/Login-action.js';
+import LoginPage from './features/auth/Login.jsx';
+import { action as loginAction } from './features/auth/Login-action.js';
 
-import SignupPage from './pages/SignupPage.jsx';
-import { action as signupAction } from './pages/SignupPage-action.js';
+import SignupPage from './features/auth/SignupPage.jsx';
+import { action as signupAction } from './features/auth/SignupPage-action.js';
 
-import ForgotPage from './pages/ForgotPage.jsx';
-import { action as forgotAction } from './pages/ForgotPage-action.js';
+import ForgotPage from './features/auth/ForgotPage.jsx';
+import { action as forgotAction } from './features/auth/ForgotPage-action.js';
 
-import ResetPassword from './pages/ResetPassword.jsx';
-import { action as resetPasswordAction } from './pages/ResetPassword-action.js';
+import ResetPassword from './features/auth/ResetPassword.jsx';
+import { action as resetPasswordAction } from './features/auth/ResetPassword-action.js';
 
-import MainPage from './pages/MainPage.jsx';
-import RootLayout from './pages/RootLayout.jsx';
-import AboutPage from './pages/AboutPage.jsx';
-import ErrorPage from './pages/Error.jsx';
-import AdminPage from './pages/Admin.jsx';
-import ProfilePage from './pages/Profile.jsx';
-import LogoutPage from './pages/Logout.jsx';
-import { loader as logoutLoader} from './pages/Logout-loader.js';
+import MainPage from './components/MainPage.jsx';
+import RootLayout from './components/RootLayout.jsx';
 
-import ShowRequirements from './pages/ShowRequirements.jsx';
-import ShowRequirement from './pages/ShowRequirement.jsx';
+import AboutPage from './features/about/AboutPage.jsx';
+import ErrorPage from './components/Error.jsx';
+import AdminPage from './features/admin/Admin.jsx';
+import ProfilePage from './features/users/Profile.jsx';
+import LogoutPage from './features/auth/Logout.jsx';
+import { loader as logoutLoader} from './features/auth/Logout-loader.js';
 
-import NewRequirement from './pages/NewRequirement.jsx';
-import { action as addRequirementAction } from './pages/NewRequirement-action.js';
-import { loader as addRequirementLoader } from './pages/NewRequirement-loader.js';
+import ShowRequirements from './features/requirements/ShowRequirements.jsx';
+import ShowRequirement from './features/requirements/ShowRequirement.jsx';
 
-import { action as updateRequirementAction } from './pages/EditRequirement-action.js';
-import { loader as getRequirementLoader } from './pages/EditRequirement-loader.js';
-import EditRequirement from './pages/EditRequirement.jsx';
+import NewRequirement from './features/requirements/NewRequirement.jsx';
+import { action as addRequirementAction } from './features/requirements/NewRequirement-action.js';
+import { loader as addRequirementLoader } from './features/requirements/NewRequirement-loader.js';
 
-import DeleteRequirement from './pages/DeleteRequirement.jsx';
-import { action as deleteRequirementAction } from './pages/DeleteRequirement-action.js';
+import { action as updateRequirementAction } from './features/requirements/EditRequirement-action.js';
+import { loader as getRequirementLoader } from './features/requirements/EditRequirement-loader.js';
+import EditRequirement from './features/requirements/EditRequirement.jsx';
 
-import ReportsPage from './pages/Reports.jsx';
-import { loader as getReportsForUser } from './pages/Reports-loader.js';
+import DeleteRequirement from './features/requirements/DeleteRequirement.jsx';
+import { action as deleteRequirementAction } from './features/requirements/DeleteRequirement-action.js';
 
-import {action as addReportAction} from './pages/NewReport-action.js';
-import {loader as addReportLoader} from './pages/NewReport-loader.js';
-import NewReport from './pages/NewReport.jsx';
+import ReportsPage from './features/reports/Reports.jsx';
+import { loader as getReportsForUser } from './features/reports/Reports-loader.js';
 
-import ShowReport from './pages/ShowReport.jsx';
-import { loader as getReportLoader } from './pages/ShowReport-loader.js';
+import {action as addReportAction} from './features/reports/NewReport-action.js';
+import {loader as addReportLoader} from './features/reports/NewReport-loader.js';
+import NewReport from './features/reports/NewReport.jsx';
 
-import { action as updateReportAction } from './pages/EditReport-action.js';
-import { loader as updateReportLoader } from './pages/EditReport-loader.js';
-import EditReport from './pages/EditReport.jsx';
+import ShowReport from './features/reports/ShowReport.jsx';
+import { loader as getReportLoader } from './features/reports/ShowReport-loader.js';
 
-import DeleteReport from './pages/DeleteReport.jsx';
+import { action as updateReportAction } from './features/reports/EditReport-action.js';
+import { loader as updateReportLoader } from './features/reports/EditReport-loader.js';
+import EditReport from './features/reports/EditReport.jsx';
+
+import DeleteReport from './features/reports/DeleteReport.jsx';
 
 import { getCategories } from './util/http.js';
 import { checkAuthLoader, authUserLoader } from './util/auth.js';
@@ -59,8 +60,8 @@ import { checkAuthLoader, authUserLoader } from './util/auth.js';
 import CartContext from "./store/cart-context.jsx";
 import { DisplayContext } from "./store/display-context-object";
 
-import OrgAdmin from "./pages/OrgAdmin.jsx";
-import { loader as getOrganizations } from './pages/GetOrganizations-loader.js';
+import OrgAdmin from "./features/orgs/OrgAdmin.jsx";
+import { loader as getOrganizations } from './features/orgs/GetOrganizations-loader.js';
 
 function App() {
 

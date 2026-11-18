@@ -9,7 +9,7 @@ import { OrgProvider } from '../store/org-context.jsx';
 
 vi.mock('../util/auth.js', () => ({ getUserData: vi.fn() }));
 vi.mock('./HamburgerComponent.jsx', () => ({ default: () => <div>Hamburger</div> }));
-vi.mock('../components/UserProfile.jsx', () => ({ default: () => <div>UserProfile</div> }));
+vi.mock('../features/users/UserProfile.jsx', () => ({ default: () => <div>UserProfile</div> }));
 
 const reportTitle = 'Quality Attributes Report Builder';
 function renderNavBar(user = { name: 'Test User', role: 'USER', orgs: [] }) {

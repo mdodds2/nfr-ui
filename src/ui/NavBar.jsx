@@ -1,12 +1,11 @@
 import { useState } from "react";
 import { useRouteLoaderData } from 'react-router-dom';
 
-
-import HamburgerComponent from "../ui/HamburgerComponent.jsx";
+import HamburgerComponent from "./HamburgerComponent.jsx";
 import { useOrg } from '../store/org-context-object.js';
-import UserProfile from "../components/UserProfile.jsx";
+import UserProfile from "../features/users/UserProfile.jsx";
 import Modal from "./Modal.jsx";
-import OrgPicker from "../ui/OrgPicker.jsx";
+import OrgPicker from "../features/orgs/OrgPicker.jsx";
 
 export default function NavBar() {
 

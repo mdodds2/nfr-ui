@@ -1,18 +1,20 @@
-import { useState } from "react"
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, useRouteLoaderData } from "react-router-dom";
 
 import Hamburger from 'hamburger-react';
-import { getUserData } from "../util/auth.js";
+import { useOrg } from "../store/org-context-object.js";
 
 export default function HamburgerComponent() {
     const [open, setOpen] = useState(false);
 
     function handleClick() {
         setOpen(false);
-        return true;
     }
 
-    const userData = getUserData();
+    const currentUser = useRouteLoaderData('auth');
+    const { orgs, currentOrgId } = useOrg();
+    const isOrgAdmin = orgs.find(org => org.id === currentOrgId)?.orgRole === 'ORG_ADMIN';
+    const showAdminLink = isOrgAdmin ||  currentUser.role === 'ADMIN';
 
     return (
         <nav>
@@ -35,7 +37,7 @@ export default function HamburgerComponent() {
                 <li className="nav-item">
                     <Link to="/main/about" onClick={handleClick}>About</Link>
                 </li>
-                {userData.role === 'ADMIN' && <li className="nav-item">
+                {showAdminLink && <li className="nav-item">
                     <Link to="/main/admin" onClick={handleClick}>Admin</Link>
                 </li>}
                 <li className="nav-item">
