@@ -31,7 +31,6 @@ const members = [
 
 function renderShowMembers({
   loaderData,
-  routeLoaderData,
   org = { orgs: [{ id: '123', name: 'Test Org', slug: 'test-org' }], currentOrgId: '123' },
   navState,
 } = {}) {
