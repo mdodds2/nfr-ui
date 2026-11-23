@@ -1,6 +1,8 @@
 import { jwtDecode } from "jwt-decode";
 import { redirect } from "react-router-dom";
 
+import { getCurrentUser } from './http.js';
+
 export function setAuthToken(token) {
     if(!token) {
         localStorage.removeItem('token');
@@ -41,4 +43,11 @@ export function checkAuthLoader() {
     if(!token) {
         return redirect("/login");
     }
+}
+
+export function authUserLoader() {
+    if(!getAuthToken()) {
+        return redirect("/login");
+    }
+    return getCurrentUser();
 }

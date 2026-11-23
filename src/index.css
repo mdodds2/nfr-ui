@@ -120,6 +120,10 @@ input:focus {
   width: 25%
 }
 
+.btn-red {
+  background-color: #FF0000;
+}
+
 .btn:active {
   transform: translateY(0);
 }
@@ -389,61 +393,20 @@ input:focus {
 }
 
 .tile-button {
+  border: 1px solid transparent;
   background-color: #00205B;
-  /* Green background */
-  border: none;
-  /* Remove default border */
   color: white;
-  /* White text */
   padding: 20px;
-  /* Spacing around content */
   text-align: center;
-  /* Center the text */
   text-decoration: none;
-  /* Remove underline for <a> tags */
   display: inline-block;
-  /* Allows setting height/width and margins */
   font-size: 16px;
-  /* Adjust font size */
   margin: 4px 2px;
-  /* Add some margin */
   cursor: pointer;
-  /* Change cursor to a hand pointer */
   border-radius: 12px;
-  /* **Key property for rounded corners** */
-  /* To make a perfect circle, use 50% and ensure equal height and width */
   width: 150px;
   height: 100px;
-  /* border-radius: 50%; */
-}
-
-.tile-button {
-  background-color: #00205B;
-  /* Green background */
-  border: none;
-  /* Remove default border */
-  color: white;
-  /* White text */
-  padding: 20px;
-  /* Spacing around content */
-  text-align: center;
-  /* Center the text */
-  text-decoration: none;
-  /* Remove underline for <a> tags */
-  display: inline-block;
-  /* Allows setting height/width and margins */
-  font-size: 16px;
-  /* Adjust font size */
-  margin: 4px 2px;
-  /* Add some margin */
-  cursor: pointer;
-  /* Change cursor to a hand pointer */
-  border-radius: 12px;
-  /* **Key property for rounded corners** */
-  /* To make a perfect circle, use 50% and ensure equal height and width */
-  width: 150px;
-  height: 100px;
-  /* border-radius: 50%; */
+  font-weight: bold;
 }
 
 .tile-button a {
@@ -465,7 +428,8 @@ input:focus {
 .tile-button:hover {
   background-color: #FFFFFF;
   color: #00205B;
-  border: 1px solid #00205B;
+  border-color: #00205B;
+  font-weight: bold;
 }
 
 .red {
@@ -481,7 +445,7 @@ input:focus {
 .mlblue {
   background-color: #00205B;
   color: white;
-  border: 1px solie #00205B;
+  border: 1px solid #00205B;
 }
 
 .yellow {
@@ -544,6 +508,9 @@ select:focus-visible {
   outline: none;
 }
 
+.button-row { display: flex; gap: 0.5rem; }
+.button-row > * { flex: 1; }
+
 .link-button {
   background-color: #00205B;
   border: 2px solid #FFFFFF;
@@ -557,7 +524,6 @@ select:focus-visible {
   margin: 4px 2px;
   cursor: pointer;
   border-radius: 8px;
-  width: 100%;
 }
 
 .link-button-small {

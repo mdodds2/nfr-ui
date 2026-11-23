@@ -1,22 +1,21 @@
-import HamburgerComponent from "../ui/HamburgerComponent.jsx";
-import { getUserData } from "../util/auth.js";
-import UserProfile from "../components/UserProfile.jsx";
 import { useState } from "react";
+import { useRouteLoaderData } from 'react-router-dom';
+
+import HamburgerComponent from "./HamburgerComponent.jsx";
+import { useOrg } from '../store/org-context-object.js';
+import UserProfile from "../features/users/UserProfile.jsx";
 import Modal from "./Modal.jsx";
+import OrgPicker from "../features/orgs/OrgPicker.jsx";
 
 export default function NavBar() {
 
-    const userData = getUserData();
-    const [showProfile, setShowProfile] = useState();
+    const [showProfile, setShowProfile] = useState(false);
+    const currentUser = useRouteLoaderData('auth');
+    const { orgs } = useOrg();
 
     function getInitials(userName) {
         if (!userName) return "";
-        var initials = "";
-        var parts = userName.split(" ");
-        parts.map((part) => {
-            initials += part.charAt(0);
-        });
-        return initials;
+        return userName.split(" ").map(p => p.charAt(0)).join("");
     }
 
     return <nav className="navbar">
@@ -34,7 +33,9 @@ export default function NavBar() {
         </div>
 
         <div className="nav-right">
-            <div className="initials-circle" onClick={() => setShowProfile(true)}>{getInitials(userData.name)}</div>
+            { orgs.length === 1 && <span>{orgs[0].name}</span> }
+            { orgs.length > 1 && <OrgPicker /> }
+            <div className="initials-circle" onClick={() => setShowProfile(true)}>{getInitials(currentUser.name)}</div>
         </div>
 
         <Modal isOpen={showProfile} onClose={() => setShowProfile(false)} >
@@ -43,6 +44,6 @@ export default function NavBar() {
                 <p className="link-button-green-mlblue" onClick={() => setShowProfile(false)}>Close</p>
             </div>
         </Modal>
-        
+
     </nav>
 }

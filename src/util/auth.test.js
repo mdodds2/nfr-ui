@@ -1,5 +1,8 @@
-import { describe, it, expect, beforeEach } from 'vitest';
-import { getAuthToken, setAuthToken, logout, getUserData, checkAuthLoader } from './auth';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { getAuthToken, setAuthToken, logout, getUserData, checkAuthLoader, authUserLoader } from './auth';
+import { getCurrentUser } from './http.js';
+
+vi.mock('./http.js', () => ({ getCurrentUser: vi.fn() }));
 
 describe('auth', () => {
   beforeEach(() => {
@@ -35,13 +38,19 @@ describe('auth', () => {
   it('getUserData with no token', () => {
     setAuthToken(null);
     const userData = getUserData();
-    expect(userData).toEqual({ noAuth: true});
+    expect(userData).toEqual({ noAuth: true });
   });
-
 
   const fakeJwt = (payload) => 'x.' + btoa(JSON.stringify(payload)) + '.y';
   it('getUserData decodes a stored token', () => {
-    const payload = { sub: '1', name: 'Mike', email: 'mike@example.com', role: 'ADMIN', iat: 1000, exp: 2000 };
+    const payload = {
+      sub: '1',
+      name: 'Mike',
+      email: 'mike@example.com',
+      role: 'ADMIN',
+      iat: 1000,
+      exp: 2000,
+    };
     setAuthToken(fakeJwt(payload));
 
     expect(getUserData()).toEqual({
@@ -65,4 +74,18 @@ describe('auth', () => {
     expect(checkAuthLoader()).toBeUndefined();
   });
 
+  it('redirects to /login when there is no token', async () => {
+    const result = await authUserLoader();
+    expect(result.status).toBe(302);
+    expect(result.headers.get('Location')).toBe('/login');
+    expect(getCurrentUser).not.toHaveBeenCalled();
+  });
+
+  it('returns the current user when a token exists', async () => {
+    const me = { id: '1', name: 'Test User', orgs: [] };
+    localStorage.setItem('token', 'abc');
+    getCurrentUser.mockResolvedValue(me);
+    expect(await authUserLoader()).toEqual(me);
+    expect(getCurrentUser).toHaveBeenCalledTimes(1);
+  });
 });

@@ -1,13 +1,11 @@
 import { useContext, useEffect, useState } from 'react';
 
 import Category from '../ui/Category.jsx';
-
 import useCategories from '../hooks/useCategories.js';
 import { getSubCategories } from '../util/http.js';
 import { DisplayContext } from "../store/display-context-object";
 import Menu from '../ui/Menu.jsx';
 import MenuItem from '../ui/MenuItem.jsx';
-
 
 function ReportBuilder() {
   const displayContext = useContext(DisplayContext);

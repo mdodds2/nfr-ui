@@ -1,5 +1,28 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { apiFetch, getCategories, getCategory, getSubCategories, getRequirementsForSubCategory, getRequirement, getNextIdentifier, getReportsForUser, getReport, getUser, addNewRequirement, updateRequirement, addNewReport, updateReport, deleteReport, forgotPassword, resetPassword, deleteRequirement } from './http';
+
+import {
+  apiFetch,
+  getCategories,
+  getCategory,
+  getSubCategories,
+  getRequirementsForSubCategory,
+  getRequirement,
+  getNextIdentifier,
+  getReportsForUser,
+  getReport,
+  getUser,
+  getCurrentUser,
+  addNewRequirement,
+  updateRequirement,
+  addNewReport,
+  updateReport,
+  deleteReport,
+  forgotPassword,
+  resetPassword,
+  deleteRequirement,
+  addMemberToOrganization,
+  updateMemberRole,
+} from './http';
 import { getAuthToken, logout } from './auth';
 
 // mock the whole auth module (like @Mock)
@@ -22,11 +45,10 @@ beforeEach(() => {
 });
 
 afterEach(() => {
-  vi.unstubAllGlobals()
+  vi.unstubAllGlobals();
 });
 
 describe('apiFetch', () => {
-
   it('adds the bearer token and returns the response', async () => {
     getAuthToken.mockReturnValue('abc');
     fetch.mockResolvedValue(res(200));
@@ -42,9 +64,9 @@ describe('apiFetch', () => {
 
   it('refreshes once on 401 and retries', async () => {
     fetch
-      .mockResolvedValueOnce(res(401))                    // original call
-      .mockResolvedValueOnce(res(200, { token: 'new' }))  // /auth/refresh
-      .mockResolvedValueOnce(res(200));                   // retry
+      .mockResolvedValueOnce(res(401)) // original call
+      .mockResolvedValueOnce(res(200, { token: 'new' })) // /auth/refresh
+      .mockResolvedValueOnce(res(200)); // retry
 
     const response = await apiFetch('/categories');
 
@@ -57,8 +79,8 @@ describe('apiFetch', () => {
     const assign = vi.fn();
     vi.stubGlobal('location', { ...window.location, assign });
     fetch
-      .mockResolvedValueOnce(res(401))     // original call
-      .mockResolvedValueOnce(res(401));    // auth/refresh fails
+      .mockResolvedValueOnce(res(401)) // original call
+      .mockResolvedValueOnce(res(401)); // auth/refresh fails
 
     const response = await apiFetch('/categories');
 
@@ -69,18 +91,16 @@ describe('apiFetch', () => {
   });
 
   it('auth paths never retry', async () => {
-      fetch
-        .mockResolvedValueOnce(res(401));
+    fetch.mockResolvedValueOnce(res(401));
 
-      const response = await apiFetch('/auth/login');
-      expect(response.status).toBe(401);
-      expect(fetch).toHaveBeenCalledTimes(1);
-      expect(logout).not.toHaveBeenCalled();
+    const response = await apiFetch('/auth/login');
+    expect(response.status).toBe(401);
+    expect(fetch).toHaveBeenCalledTimes(1);
+    expect(logout).not.toHaveBeenCalled();
   });
 });
 
 describe('GET helpers', () => {
-
   it('returns the categories JSON body', async () => {
     fetch.mockResolvedValueOnce(res(200, [{ id: 1 }]));
     expect(await getCategories()).toEqual([{ id: 1 }]);
@@ -96,7 +116,7 @@ describe('GET helpers', () => {
     fetch.mockResolvedValueOnce(res(200, category));
     expect(await getCategory(1)).toEqual(category);
     const [url] = fetch.mock.calls[0];
-     expect(url).toContain('/categories/1');
+    expect(url).toContain('/categories/1');
   });
 
   it('returns the subCategories JSON body', async () => {
@@ -126,30 +146,37 @@ describe('GET helpers', () => {
   });
 
   it('returns the reports for logged on user', async () => {
-    const reports = [{id: 1, name: 'report1', measurements: {} }];
+    const reports = [{ id: 1, name: 'report1', measurements: {} }];
     fetch.mockResolvedValueOnce(res(200, reports));
     expect(await getReportsForUser()).toEqual(reports);
   });
 
   it('gets a report by id', async () => {
-    const report = {id: 1, name: 'report1'};
+    const report = { id: 1, name: 'report1' };
     fetch.mockResolvedValueOnce(res(200, report));
     expect(await getReport(1)).toEqual(report);
     const [url] = fetch.mock.calls[0];
     expect(url).toContain('/reports/1');
   });
 
-  it('gets current user', async () => {
-    const user = {id: 1, name: 'Test User'};
+  it('gets a user', async () => {
+    const user = { id: 1, name: 'Test User' };
     fetch.mockResolvedValueOnce(res(200, user));
-    expect(await getUser()).toEqual(user);
+    expect(await getUser(1)).toEqual(user);
+    const [url] = fetch.mock.calls[0];
+    expect(url).toContain('/users/1');
+  });
+
+  it('gets current user', async () => {
+    const user = { id: 1, name: 'Test User' };
+    fetch.mockResolvedValueOnce(res(200, user));
+    expect(await getCurrentUser()).toEqual(user);
     const [url] = fetch.mock.calls[0];
     expect(url).toContain('/users/me');
   });
 });
 
 describe('write helpers', () => {
-
   it('update a report for current user', async () => {
     const report = { id: 100, name: 'Test Report' };
     fetch.mockResolvedValueOnce(res(200, report));
@@ -184,8 +211,8 @@ describe('write helpers', () => {
     expect(fetch).toHaveBeenCalledTimes(1);
 
     const [url, options] = fetch.mock.calls[0];
-    expect(url).toMatch(/\/requirements$/)
-    expect(JSON.parse(options.body)).toEqual(requirement)
+    expect(url).toMatch(/\/requirements$/);
+    expect(JSON.parse(options.body)).toEqual(requirement);
     expect(options.method).toBe('POST');
   });
 
@@ -199,7 +226,7 @@ describe('write helpers', () => {
 
     const [url, options] = fetch.mock.calls[0];
     expect(url).toContain('/requirements/100');
-    expect(JSON.parse(options.body)).toEqual(requirement)
+    expect(JSON.parse(options.body)).toEqual(requirement);
     expect(options.method).toBe('PATCH');
   });
 
@@ -224,16 +251,15 @@ describe('write helpers', () => {
     expect(fetch).toHaveBeenCalledTimes(1);
 
     const [url, options] = fetch.mock.calls[0];
-    expect(url).toMatch(/\/reports$/)
-    expect(JSON.parse(options.body)).toEqual(report)
+    expect(url).toMatch(/\/reports$/);
+    expect(JSON.parse(options.body)).toEqual(report);
     expect(options.method).toBe('POST');
   });
 });
 
 describe('auth endpoints', () => {
-
   it('will send the user a recovery url', async () => {
-    const request = { email: 'user@domain.com'};
+    const request = { email: 'user@domain.com' };
     fetch.mockResolvedValueOnce(res(200, request));
 
     const result = await forgotPassword(request);
@@ -247,7 +273,7 @@ describe('auth endpoints', () => {
   });
 
   it('will update the user password', async () => {
-    const request = { token: "abc", newPassword: 'NEW_PASSWORD'};
+    const request = { token: 'abc', newPassword: 'NEW_PASSWORD' };
     fetch.mockResolvedValueOnce(res(200, request));
 
     const result = await resetPassword(request);
@@ -259,4 +285,35 @@ describe('auth endpoints', () => {
     expect(options.method).toEqual('POST');
     expect(JSON.parse(options.body)).toEqual(request);
   });
+
+  it('will add Member To Organization', async () => {
+    const orgId = '123';
+    const request = { email: 'test.user@domain.com', orgRole: 'MEMBER' };
+    fetch.mockResolvedValueOnce(res(200, request));
+
+    const result = await addMemberToOrganization(orgId, request);
+    expect(result.status).toBe(200);
+    expect(fetch).toHaveBeenCalledTimes(1);
+
+    const [url, options] = fetch.mock.calls[0];
+    expect(url).toContain('/organizations/123/members');
+    expect(options.method).toEqual('POST');
+    expect(JSON.parse(options.body)).toEqual(request);
+  });
+
+  it('will update member role', async () => {
+
+    const request = { orgRole: 'MEMBER' };
+    fetch.mockResolvedValueOnce(res(200, request));
+
+    const result = await updateMemberRole('123', '234', request);
+    expect(result.status).toBe(200);
+    expect(fetch).toHaveBeenCalledTimes(1);
+
+    const [url, options] = fetch.mock.calls[0];
+    expect(url).toContain('/organizations/123/members/234');
+    expect(options.method).toEqual('PATCH');
+    expect(JSON.parse(options.body)).toEqual(request);
+  });
+
 });

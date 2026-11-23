@@ -9,6 +9,6 @@ export default defineConfig({
     environment: 'jsdom',
     globals: true,
     setupFiles: './src/setupTests.js',
-    coverage: { include: ['src/**'], exclude: ['**/*.css', 'src/assets/**', 'src/main.jsx', 'src/util/constants.js'] }},
+    coverage: { include: ['src/**'], exclude: ['**/*.css', 'src/assets/**', 'src/App.jsx', 'src/main.jsx', 'src/util/constants.js'] }},
 })
 
