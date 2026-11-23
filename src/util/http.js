@@ -1,4 +1,4 @@
-import { getAuthToken, setAuthToken, logout } from "./auth";
+import { getAuthToken, setAuthToken, logout } from './auth';
 
 export const API_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:8080';
 
@@ -16,7 +16,9 @@ async function refreshAccessToken() {
         setAuthToken(token);
         return token;
       })
-      .finally(() => { refreshPromise = null; });
+      .finally(() => {
+        refreshPromise = null;
+      });
   }
   return refreshPromise;
 }
@@ -24,11 +26,9 @@ async function refreshAccessToken() {
 export async function apiFetch(path, options = {}, retry = true) {
   const headers = { ...options.headers };
   const token = getAuthToken();
-  if (token)
-    headers.Authorization = `Bearer ${token}`;
+  if (token) headers.Authorization = `Bearer ${token}`;
 
-  if (options.body && !headers['Content-Type'])
-    headers['Content-Type'] = 'application/json';
+  if (options.body && !headers['Content-Type']) headers['Content-Type'] = 'application/json';
 
   const response = await fetch(`${API_URL}${path}`, {
     ...options,
@@ -68,43 +68,47 @@ export const getOrganizationsForUser = () => getJson('/organizations?sort=name')
 export const getMembersForOrganization = (orgId) => getJson('/organizations/' + orgId + '/members?sort=name');
 
 export async function addNewRequirement(requirement) {
-    return apiFetch('/requirements', { method: 'POST', body: JSON.stringify(requirement) });
+  return apiFetch('/requirements', { method: 'POST', body: JSON.stringify(requirement) });
 }
 
 export async function updateRequirement(id, requirement) {
-    return apiFetch('/requirements/' + id, { method: 'PATCH', body: JSON.stringify(requirement) });
+  return apiFetch('/requirements/' + id, { method: 'PATCH', body: JSON.stringify(requirement) });
 }
 
 export async function deleteRequirement(id) {
-    return apiFetch('/requirements/' + id, { method: 'DELETE' });
+  return apiFetch('/requirements/' + id, { method: 'DELETE' });
 }
 
 export async function addNewReport(report) {
-    return apiFetch('/reports', { method: 'POST', body: JSON.stringify(report) });
+  return apiFetch('/reports', { method: 'POST', body: JSON.stringify(report) });
 }
 
 export async function updateReport(reportId, report) {
-    return apiFetch('/reports/' + reportId, { method: 'PUT', body: JSON.stringify(report) });
+  return apiFetch('/reports/' + reportId, { method: 'PUT', body: JSON.stringify(report) });
 }
 
 export async function deleteReport(id) {
-    return apiFetch('/reports/' + id, { method: 'DELETE'})
+  return apiFetch('/reports/' + id, { method: 'DELETE' });
 }
 
 export async function forgotPassword(request) {
-    return apiFetch('/auth/forgot-password', { method: 'POST', body: JSON.stringify(request) });
+  return apiFetch('/auth/forgot-password', { method: 'POST', body: JSON.stringify(request) });
 }
 
 export async function resetPassword(request) {
-    return apiFetch('/auth/reset-password', { method: 'POST', body: JSON.stringify(request) });
+  return apiFetch('/auth/reset-password', { method: 'POST', body: JSON.stringify(request) });
 }
 
 export async function addMemberToOrganization(orgId, request) {
-    return apiFetch('/organizations/' + orgId + '/members', { method: 'POST', body: JSON.stringify(request) });
+  return apiFetch('/organizations/' + orgId + '/members', {
+    method: 'POST',
+    body: JSON.stringify(request),
+  });
 }
 
 export async function updateMemberRole(orgId, userId, request) {
-    return apiFetch(`/organizations/${orgId}/members/${userId}`, { method: 'PATCH', body: JSON.stringify(request) });
+  return apiFetch(`/organizations/${orgId}/members/${userId}`, {
+    method: 'PATCH',
+    body: JSON.stringify(request),
+  });
 }
-
-
