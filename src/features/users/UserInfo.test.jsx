@@ -58,7 +58,7 @@ describe('UserInfo', () => {
   });
 
   it('admin sees Admin link', () => {
-    renderUserInfo({ name: 'Mike Dodds', role: 'ADMIN' });
+    renderUserInfo({ name: 'Test User', role: 'ADMIN' });
     expect(screen.getByRole('link', { name: 'Admin' })).toHaveAttribute('href', '/main/admin');
   });
 

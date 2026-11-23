@@ -63,6 +63,10 @@ import { DisplayContext } from "./store/display-context-object";
 import OrgAdmin from "./features/orgs/OrgAdmin.jsx";
 import { loader as getOrganizations } from './features/orgs/GetOrganizations-loader.js';
 
+import ShowMembers from "./features/orgs/ShowMembers.jsx";
+import { loader as showMembersLoader } from './features/orgs/ShowMembers-loader.js';
+import { action as showMembersAction } from './features/orgs/ShowMembers-action.js';
+
 function App() {
 
   const cartContext = useContext(CartContext);
@@ -128,6 +132,7 @@ function App() {
             { path: '/organizations',
                 children: [
                     { index: true, element: <OrgAdmin />, loader: getOrganizations },
+                    { path: '/organizations/:orgId/members', element: <ShowMembers />, loader: showMembersLoader, action: showMembersAction },
                 ]
             },
         ]

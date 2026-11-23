@@ -508,6 +508,9 @@ select:focus-visible {
   outline: none;
 }
 
+.button-row { display: flex; gap: 0.5rem; }
+.button-row > * { flex: 1; }
+
 .link-button {
   background-color: #00205B;
   border: 2px solid #FFFFFF;
@@ -521,7 +524,6 @@ select:focus-visible {
   margin: 4px 2px;
   cursor: pointer;
   border-radius: 8px;
-  width: 100%;
 }
 
 .link-button-small {
