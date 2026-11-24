@@ -25,7 +25,6 @@ export default function ShowMembers() {
         <article>
           <h1>Members - {orgName}</h1>
 
-          <div className="button-row">
             <Form ref={formRef} method="post" className="add-member">
               <input
                 type="email"
@@ -43,7 +42,6 @@ export default function ShowMembers() {
               </button>
               {actionData?.error && <p className="error">{actionData.error}</p>}
             </Form>
-          </div>
 
           <table>
             <thead>
@@ -51,6 +49,7 @@ export default function ShowMembers() {
                 <th>Name</th>
                 <th>Email</th>
                 <th>Org Role</th>
+                <th width="25%">Action</th>
               </tr>
             </thead>
             <tbody>

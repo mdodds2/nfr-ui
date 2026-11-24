@@ -112,3 +112,9 @@ export async function updateMemberRole(orgId, userId, request) {
     body: JSON.stringify(request),
   });
 }
+
+export async function removeMember(orgId, userId) {
+  return apiFetch(`/organizations/${orgId}/members/${userId}`, {
+    method: 'DELETE',
+  });
+}

@@ -1,10 +1,11 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { action } from './ShowMembers-action';
-import { addMemberToOrganization, updateMemberRole } from '../../util/http.js';
+import { addMemberToOrganization, updateMemberRole, removeMember } from '../../util/http.js';
 
 vi.mock('../../util/http.js', () => ({
   addMemberToOrganization: vi.fn(),
   updateMemberRole: vi.fn(),
+  removeMember: vi.fn(),
 }));
 
 const res = (status, body = {}) => ({
@@ -15,10 +16,10 @@ const res = (status, body = {}) => ({
 
 const createRequest = (method, orgId, email, orgRole, userId) => {
   const form = new FormData();
-  if ('PATCH' === method) {
+  if ('PATCH' === method || 'DELETE' === method) {
     form.append('userId', userId);
-    form.append('orgRole', orgRole);
-  } else {
+    if(orgRole) form.append('orgRole', orgRole);
+  } else if('POST' === method){
     form.append('email', email);
     form.append('orgRole', orgRole);
   }
@@ -26,7 +27,7 @@ const createRequest = (method, orgId, email, orgRole, userId) => {
     'http://localhost/organizations/' +
     orgId +
     '/members' +
-    (method === 'PATCH' ? '/' + userId : '');
+    (method !== 'POST' ? '/' + userId : '');
   return new Request(url, { method: method, body: form });
 };
 
@@ -121,4 +122,35 @@ describe('New Member action', () => {
     expect(result.error).toBe('System error when updating role.');
     expect(updateMemberRole).toHaveBeenCalledTimes(1);
   });
+
+  it('Removes a member', async () => {
+    removeMember.mockResolvedValueOnce(res(204));
+    const result = await action({
+      request: createRequest('DELETE', '123', null, null, '456'),
+      params: { orgId: '123' },
+    });
+    expect(result).toEqual({ ok: true });
+    expect(removeMember).toHaveBeenCalledWith('123', '456');
+  });
+
+  it('Attempt to remove a member, receives 409', async () => {
+    removeMember.mockResolvedValueOnce(res(409));
+    const result = await action({
+      request: createRequest('DELETE', '123', null, null, '456'),
+      params: { orgId: '123', },
+    });
+    expect(result.status).toBe(409);
+    expect(result.error).toBe('Cannot remove the last Org Admin.');
+  });
+
+  it('Attempt to remove a member, receives 500', async () => {
+    removeMember.mockResolvedValueOnce(res(500));
+    const result = await action({
+      request: createRequest('DELETE', '123', null, null, '456'),
+      params: { orgId: '123' },
+    });
+    expect(result.status).toBe(500);
+    expect(result.error).toBe('System error when deleting member.');
+  });
+
 });
