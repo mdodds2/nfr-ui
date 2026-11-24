@@ -605,6 +605,11 @@ link-button-green-big:active {
   text-align: center;
   width: 25%;
 }
+.link-button-25-red {
+  text-align: center;
+  width: 25%;
+  background-color: red;
+}
 
 
 /* Add hover effect for better user experience */
@@ -1466,3 +1471,10 @@ svg {
   flex-wrap: nowrap;
   gap: 12px; /* space between icons */
 }
+
+.row-actions { display: flex; align-items: center; gap: .5rem; }
+
+.member-delete-btn { min-width: 12rem; white-space: nowrap; text-align: center }
+.member-confirm-delete-btn { min-width: 12rem; white-space: nowrap; text-align: center; background-color: red }
+.member-confirm-delete-btn:hover { min-width: 12rem; white-space: nowrap; text-align: center; background-color: red; color: #FFFFFF; border: 2px solid #FFFFFF; }
+.member-cancel-btn { min-width: 12rem; white-space: nowrap; text-align: center; background-color: #FFFFFF; color: #00205B; border: 2px solid #00205B }

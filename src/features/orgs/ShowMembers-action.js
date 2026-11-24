@@ -1,4 +1,4 @@
-import { addMemberToOrganization, updateMemberRole } from '../../util/http';
+import { addMemberToOrganization, updateMemberRole, removeMember } from '../../util/http';
 
 export const action = async ({ request, params }) => {
   const formData = await request.formData();
@@ -10,6 +10,14 @@ export const action = async ({ request, params }) => {
     if (response.status === 409)
       return { status: 409, error: 'An organization needs at least one org admin.' };
     if (!response.ok) return { status: response.status, error: 'System error when updating role.' };
+    return { ok: true };
+  }
+
+  if (request.method === 'DELETE') {
+    const response = await removeMember(params.orgId, formData.get('userId'));
+    if (response.status === 409)
+      return { status: 409, error: 'Cannot remove the last Org Admin.' };
+    if (!response.ok) return { status: response.status, error: 'System error when deleting member.' };
     return { ok: true };
   }
 
