@@ -33,7 +33,11 @@ function makeFetcher() {
 
 function renderRow(member) {
   return render(
-    <table><tbody><MemberRow member={member} /></tbody></table>
+    <table>
+      <tbody>
+        <MemberRow member={member} />
+      </tbody>
+    </table>
   );
 }
 
@@ -79,45 +83,48 @@ describe('MemberRow', () => {
   it('Clicking delete shows Confirm Delete and Cancel', async () => {
     renderRow(member);
     const user = userEvent.setup();
-    await user.click(screen.getByRole('button', {name: 'Delete' }));
-    expect(screen.getByRole('button', { name: 'Confirm Delete'})).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Cancel'})).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: 'Delete' }));
+    expect(screen.getByRole('button', { name: 'Confirm Delete' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Cancel' })).toBeInTheDocument();
   });
 
   it('Clicking Cancel button brings back Delete button', async () => {
     renderRow(member);
     const user = userEvent.setup();
-    await user.click(screen.getByRole('button', {name: 'Delete' }));
-    expect(screen.queryByRole('button', { name: 'Delete'})).not.toBeInTheDocument();
-    await user.click(screen.getByRole('button', {name: 'Cancel' }));
-    expect(screen.getByRole('button', { name: 'Delete'})).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: 'Delete' }));
+    expect(screen.queryByRole('button', { name: 'Delete' })).not.toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: 'Cancel' }));
+    expect(screen.getByRole('button', { name: 'Delete' })).toBeInTheDocument();
   });
 
-  it('Clicking Confirm Delete calls submit with a delete method', async () => {
-    const onSubmit = vi.fn((e) => e.preventDefault());
-    deleteFetcher.Form = ({ children, ...props }) => <form {...props} onSubmit={onSubmit}>{children}</form>;
+  it('Clicking Confirm Delete submits the delete form', async () => {
+    const onSubmit = vi.fn();
+    deleteFetcher.Form = ({ children, onSubmit: componentOnSubmit, ...props }) => (
+      <form {...props} onSubmit={(e) => { e.preventDefault(); onSubmit(e); componentOnSubmit?.(e);}}>
+        {children}
+      </form>
+    );
     renderRow(member);
     const user = userEvent.setup();
-    await user.click(screen.getByRole('button', {name: 'Delete' }));
-    await user.click(screen.getByRole('button', {name: 'Confirm Delete' }));
+    await user.click(screen.getByRole('button', { name: 'Delete' }));
+    await user.click(screen.getByRole('button', { name: 'Confirm Delete' }));
     expect(onSubmit).toHaveBeenCalledTimes(1);
     expect(onSubmit.mock.calls[0][0].target).toHaveAttribute('method', 'delete');
   });
 
   it('Reset after error', async () => {
-    const onSubmit = vi.fn((e) => e.preventDefault());
-    deleteFetcher.Form = ({ children, ...props }) => <form {...props} onSubmit={onSubmit}>{children}</form>;
-    const { rerender } = renderRow(member);
-    const user = userEvent.setup();
-    await user.click(screen.getByRole('button', {name: 'Delete' }));
-    await user.click(screen.getByRole('button', {name: 'Confirm Delete' }));
-    deleteFetcher.data = { error: 'Cannot remove the last Org Admin.' };
-    rerender(
-      <table><tbody><MemberRow member={member} /></tbody></table>
+    deleteFetcher.Form = ({ children, onSubmit: componentOnSubmit, ...props }) => (
+      <form {...props} onSubmit={(e) => { e.preventDefault(); componentOnSubmit?.(e); }} >
+        {children}
+      </form>
     );
-    expect(screen.getByRole('button', { name: 'Delete'})).toBeInTheDocument();
-    expect(screen.queryByRole('button', { name: 'Confirm Delete'})).not.toBeInTheDocument();
+
+    renderRow(member);
+    const user = userEvent.setup();
+    await user.click(screen.getByRole('button', { name: 'Delete' }));
+    await user.click(screen.getByRole('button', { name: 'Confirm Delete' }));
+    deleteFetcher.data = { error: 'Cannot remove the last Org Admin.' };
+    expect(screen.getByRole('button', { name: 'Delete' })).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Confirm Delete' })).not.toBeInTheDocument();
   });
-
-
 });

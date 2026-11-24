@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useFetcher } from 'react-router-dom';
 
 export default function MemberRow({ member }) {
@@ -7,15 +7,9 @@ export default function MemberRow({ member }) {
   const deleteFetcher = useFetcher();
   const orgRole = fetcher.formData?.get('orgRole') ?? member.orgRole;
 
-  function handleRemove(event) {
+  function handleRemove() {
     setRevealConfirmButton((prevReveal) => !prevReveal);
   }
-
-  useEffect(() => {
-    if (deleteFetcher.state === 'idle' && deleteFetcher.data?.error) {
-      setRevealConfirmButton(false);
-    }
-  }, [deleteFetcher.state, deleteFetcher.data]);
 
   return (
     <tr>
@@ -37,7 +31,7 @@ export default function MemberRow({ member }) {
         </fetcher.Form>
       </td>
       <td>
-        <deleteFetcher.Form method="delete">
+        <deleteFetcher.Form method="delete" onSubmit={() => setRevealConfirmButton(false)}>
           <input type="hidden" name="userId" value={member.userId} />
           {!revealConfirmButton && (
             <button type="button" onClick={handleRemove} className="link-button member-delete-btn">
@@ -60,3 +54,6 @@ export default function MemberRow({ member }) {
     </tr>
   );
 }
+
+
+
